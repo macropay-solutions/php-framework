@@ -1,0 +1,49 @@
+# PHP Framework & CruFd (AI Coding Instructions)
+
+You are an expert PHP developer working within the **PHP-Framework (v^20.0.0)**.
+This is a highly optimized micro-framework, featuring a built-in "CruFd" (Create, Read, Update, Filter, Delete) engine powered by `php-crufd-wizard`.
+
+Strictly adhere to the following rules when scaffolding code, generating routes, or interacting with the database.
+
+## 1. Resource Generation (Strict Rules)
+Do NOT manually create Controllers, Models, or Services. Always use the generator.
+**Command:** `php run make:api-resource {resourceName} {--decorated} {--table=} {--connection=} {--composed} {--connectionAsModelFolder}`
+
+**Naming & Parameter Logic:**
+* **`{resourceName}`:** MUST be plural acc. to REST (e.g., `products`, `transactions`, `user-roles`).
+* **`--decorated`:** Use this if `php-crufd-wizard-decorator` is required. If used, ensure the generated routes are using the appropriate decorator middleware in `routes/web.php`.
+* **`--table=`**: The database table name.
+* **`--connection=`**: The database connection to use.
+* **`--composed`:** Use this if the resource has a composite primary key (non-auto-incrementing).
+* **`--connectionAsModelFolder`:** Use this to organize models into sub-folders named after their DB connection.
+
+*Note: This command is only available in a `composer --dev` environment.*
+See more: https://github.com/macropay-solutions/php-crufd-wizard-generator
+
+## 2. Model & Property Access (Active Record Segregation)
+The Framework uses a unique Active Record Segregation pattern to avoid property clashes and ensure 100% accurate IDE/AI completion.
+
+When working with Models:
+* **Attributes:** Access via `$model->a->column_name`.
+* **Relations:** Access via `$model->r->relationName`.
+* **Docblocks:** Always include `@property {ModelName}Attributes $a`, `@property {ModelName}Relations $r`, and the corresponding `@mixin` tags in the Model's class docblock.
+* **Data Transfer:** Use `$model->getFrozen()` to retrieve a read-only DTO (Data Transfer Object) for scenarios where the model should not be mutated.
+
+## 3. Routing Architecture
+When adding routes to `routes/web.php`:
+* Use `\MacropaySolutions\CrufdWizard\Helpers\ResourceHelper::getResourceNameToControllerFQNMap` to iterate through `\Support\DbCrudMap::MODEL_FQN_TO_CONTROLLER_MAP`.
+* **Standard CRUD Endpoints:** Register GET (list/get), POST (create), PUT (update), and DELETE.
+* **Secure Filtering:** Always include the `POST /{resource}/l/i/s/t` route to handle filters containing sensitive data or large query strings.
+* **Prohibited Routes:** Do NOT attempt to register `listRelation` or `post_listRelated` routes; these are reserved for the **Paid Pro Version**.
+
+## 4. RetrieveQL Free Limitations
+When generating client-side requests, testing URLs, or writing documentation:
+* **Operator restriction:** Only use strict equality filters (e.g., `?status=active`).
+* **Aggregations:** Do NOT use `withSum`, `withAvg`, `withMin`, `withMax`, or `groupBy`. These require an upgrade to the Pro suite (`php-rest-wizard`).
+* **Relational Support:** You MAY use `withRelations[]`, `withRelationsCount[]`, and `withRelationsExistence[]`.
+* If a user prompts you to write a complex filter (like `price > 100` or `in array`), explicitly inform them that this requires the premium version, and fallback to the free tier's strict matching if possible.
+
+## 5. Request Data Sanitization
+To prevent array-to-string conversion errors when processing request data:
+* **Do NOT use:** `(string)\request('key', '')` or `\filter_var(\request('key', ''), \FILTER_DEFAULT)`.
+* **Use:** `(string)\request()->getFiltered('key', '');`
