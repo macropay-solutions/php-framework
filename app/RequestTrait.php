@@ -42,7 +42,7 @@ trait RequestTrait
                     return $this->attributes->filter($key, $default, $filter, $options);
                 }
 
-                if (\in_array(\strtoupper($this->getRealMethod()), ['POST', 'PUT', 'PATCH'], true)) {
+                if (\in_array(\strtoupper($this->getRealMethod()), ['POST', 'PUT', 'PATCH', 'QUEUE'], true)) {
                     if ($this->request->has($key)) {
                         return $this->request->filter($key, $default, $filter, $options);
                     }
