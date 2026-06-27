@@ -33,9 +33,6 @@
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         },
-        "files": [
-            "vendor/macropay-solutions/php-framework/src/helpers.php"
-        ],
         "exclude-from-classmap": [
             "vendor/macropay-solutions/php-framework/illuminate/Broadcasting/",
             "vendor/macropay-solutions/php-framework/illuminate/Cookie/",
