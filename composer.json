@@ -21,7 +21,6 @@
     "suggest": {
         "php": "8.2-8.5",
         "ext-zend-opcache": "*",
-        "laravel/serializable-closure": "Require if you want to allow serrializable closures (^2.0.11)",
         "league/commonmark": "Required for Markdown mailables (^2.6)",
         "macropay-solutions/php-crufd-wizard-client": "^1.0.0",
         "symfony/mailer": "Required to send emails (^7.4)",
