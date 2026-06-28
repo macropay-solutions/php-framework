@@ -4,14 +4,14 @@ namespace App;
 
 use Composer\InstalledVersions;
 use FastRoute\Dispatcher;
+use MacropaySolutions\CrufdWizard\Helpers\GeneralHelper;
+use MacropaySolutions\CrufdWizard\Responses\DecoratableJsonResponse;
+use MacropaySolutions\Framework\Bootstrap\LoadEnvironmentVariables;
+use MacropaySolutions\Framework\Console\ConsoleServiceProvider;
 use MacropaySolutions\Kernel\Config\Repository;
 use MacropaySolutions\Kernel\Database\MigrationServiceProvider;
 use MacropaySolutions\Kernel\Http\JsonResponse;
 use MacropaySolutions\Kernel\Mail\MailServiceProvider;
-use MacropaySolutions\Framework\Bootstrap\LoadEnvironmentVariables;
-use MacropaySolutions\Framework\Console\ConsoleServiceProvider;
-use MacropaySolutions\CrufdWizard\Helpers\GeneralHelper;
-use MacropaySolutions\CrufdWizard\Responses\DecoratableJsonResponse;
 
 class Application extends \MacropaySolutions\Framework\Application
 {

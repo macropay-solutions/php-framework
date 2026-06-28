@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands;
 
+use LogicException;
+use MacropaySolutions\Framework\Application;
 use MacropaySolutions\Kernel\Console\Command;
 use MacropaySolutions\Kernel\Contracts\Console\Kernel as ConsoleKernelContract;
 use MacropaySolutions\Kernel\Filesystem\Filesystem;
-use MacropaySolutions\Framework\Application;
-use LogicException;
 use Throwable;
 
 class ConfigCacheCommand extends Command

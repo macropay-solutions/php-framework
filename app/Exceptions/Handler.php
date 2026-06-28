@@ -2,10 +2,10 @@
 
 namespace App\Exceptions;
 
+use MacropaySolutions\Framework\Exceptions\Handler as ExceptionHandler;
 use MacropaySolutions\Kernel\Auth\Access\AuthorizationException;
 use MacropaySolutions\Kernel\Database\Obvious\ModelNotFoundException;
 use MacropaySolutions\Kernel\Validation\ValidationException;
-use MacropaySolutions\Framework\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 

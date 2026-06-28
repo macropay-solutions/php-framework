@@ -6,8 +6,8 @@ use App\Console\Commands\ConfigCacheCommand;
 use App\Console\Commands\ConfigClearCommand;
 use App\Console\Commands\RouteCacheCommand;
 use App\Console\Commands\RouteClearCommand;
-use MacropaySolutions\Kernel\Console\Scheduling\Schedule;
 use MacropaySolutions\Framework\Console\Kernel as ConsoleKernel;
+use MacropaySolutions\Kernel\Console\Scheduling\Schedule;
 
 class Kernel extends ConsoleKernel
 {

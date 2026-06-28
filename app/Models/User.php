@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
+use MacropaySolutions\Framework\Auth\Authorizable;
 use MacropaySolutions\Kernel\Auth\Authenticatable;
 use MacropaySolutions\Kernel\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use MacropaySolutions\Kernel\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use MacropaySolutions\Kernel\Database\Obvious\Factories\HasFactory;
 use MacropaySolutions\Kernel\Database\Obvious\Model;
-use MacropaySolutions\Framework\Auth\Authorizable;
 
 class User extends Model implements AuthenticatableContract, AuthorizableContract
 {
