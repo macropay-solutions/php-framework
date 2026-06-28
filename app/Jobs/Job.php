@@ -2,10 +2,10 @@
 
 namespace App\Jobs;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use MacropaySolutions\Kernel\Bus\Queueable;
+use MacropaySolutions\Kernel\Contracts\Queue\ShouldQueue;
+use MacropaySolutions\Kernel\Queue\InteractsWithQueue;
+use MacropaySolutions\Kernel\Queue\SerializesModels;
 
 abstract class Job implements ShouldQueue
 {

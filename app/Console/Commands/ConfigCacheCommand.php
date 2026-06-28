@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use Illuminate\Contracts\Console\Kernel as ConsoleKernelContract;
-use Illuminate\Filesystem\Filesystem;
+use MacropaySolutions\Kernel\Console\Command;
+use MacropaySolutions\Kernel\Contracts\Console\Kernel as ConsoleKernelContract;
+use MacropaySolutions\Kernel\Filesystem\Filesystem;
 use MacropaySolutions\Framework\Application;
 use LogicException;
 use Throwable;

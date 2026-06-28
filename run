@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 require_once __DIR__ . '/vendor/autoload.php';
 
 if (($_SERVER['argv'][1] ?? '') === 'autowiring:cache') {
-    \Illuminate\Container\BoundMethod::enableClassesFqnsToCacheForAutowire();
+    \MacropaySolutions\Kernel\Container\BoundMethod::enableClassesFqnsToCacheForAutowire();
 }
 
 $app = require __DIR__ . '/bootstrap/app.php';
@@ -34,7 +34,7 @@ $app = require __DIR__ . '/bootstrap/app.php';
 */
 
 $kernel = $app->make(
-    'Illuminate\Contracts\Console\Kernel'
+    'MacropaySolutions\Kernel\Contracts\Console\Kernel'
 );
 
 exit($kernel->handle(new ArgvInput(), new ConsoleOutput()));

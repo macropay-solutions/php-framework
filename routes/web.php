@@ -22,9 +22,9 @@ $router->get('/', [
 | Uncomment in bootstrap/app.php:
 |
 |
-| $app->withEloquent();
+| $app->withObvious();
 |
-| and use this command to generate the crud files for the below routes (uncomment $app->withEloquent:
+| and use this command to generate the crud files for the below routes (uncomment $app->withObvious:
 | php run make:api-resource
 |     {resourceName} {--decorated} {--table=} {--connection=} {--composed} {--connectionAsModelFolder}
 |

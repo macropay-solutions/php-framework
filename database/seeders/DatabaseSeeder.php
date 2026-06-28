@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
+use MacropaySolutions\Kernel\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {

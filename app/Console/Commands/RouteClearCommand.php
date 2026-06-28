@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
+use MacropaySolutions\Kernel\Console\Command;
+use MacropaySolutions\Kernel\Filesystem\Filesystem;
 
 class RouteClearCommand extends Command
 {

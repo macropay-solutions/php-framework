@@ -33,17 +33,17 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "exclude-from-classmap": [
-            "vendor/macropay-solutions/php-framework/illuminate/Broadcasting/",
-            "vendor/macropay-solutions/php-framework/illuminate/Cookie/",
-            "vendor/macropay-solutions/php-framework/illuminate/Encryption/",
-            "vendor/macropay-solutions/php-framework/illuminate/Hashing/",
-            "vendor/macropay-solutions/php-framework/illuminate/Mail/",
-            "vendor/macropay-solutions/php-framework/illuminate/Notifications/",
-            "vendor/macropay-solutions/php-framework/illuminate/Process/",
-            "vendor/macropay-solutions/php-framework/illuminate/Redis/",
-            "vendor/macropay-solutions/php-framework/illuminate/Routing/",
-            "vendor/macropay-solutions/php-framework/illuminate/Session/",
-            "vendor/macropay-solutions/php-framework/illuminate/View/"
+            "vendor/macropay-solutions/php-kernel/kernel/Broadcasting/",
+            "vendor/macropay-solutions/php-kernel/kernel/Cookie/",
+            "vendor/macropay-solutions/php-kernel/kernel/Encryption/",
+            "vendor/macropay-solutions/php-kernel/kernel/Hashing/",
+            "vendor/macropay-solutions/php-kernel/kernel/Mail/",
+            "vendor/macropay-solutions/php-kernel/kernel/Notifications/",
+            "vendor/macropay-solutions/php-kernel/kernel/Process/",
+            "vendor/macropay-solutions/php-kernel/kernel/Redis/",
+            "vendor/macropay-solutions/php-kernel/kernel/Routing/",
+            "vendor/macropay-solutions/php-kernel/kernel/Session/",
+            "vendor/macropay-solutions/php-kernel/kernel/View/"
         ]
     },
     "autoload-dev": {

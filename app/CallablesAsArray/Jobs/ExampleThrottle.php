@@ -2,7 +2,7 @@
 
 namespace App\CallablesAsArray\Jobs;
 
-use Illuminate\Contracts\Queue\Job;
+use MacropaySolutions\Kernel\Contracts\Queue\Job;
 use Psr\Log\LoggerInterface;
 
 class ExampleThrottle

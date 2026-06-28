@@ -2,9 +2,9 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Validation\ValidationException;
+use MacropaySolutions\Kernel\Auth\Access\AuthorizationException;
+use MacropaySolutions\Kernel\Database\Obvious\ModelNotFoundException;
+use MacropaySolutions\Kernel\Validation\ValidationException;
 use MacropaySolutions\Framework\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
@@ -38,9 +38,9 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \MacropaySolutions\Kernel\Http\Request  $request
      * @param  \Throwable  $exception
-     * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse
+     * @return \MacropaySolutions\Kernel\Http\Response|\MacropaySolutions\Kernel\Http\JsonResponse
      *
      * @throws \Throwable
      */

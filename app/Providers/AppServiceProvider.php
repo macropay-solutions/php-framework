@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use MacropaySolutions\Kernel\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {

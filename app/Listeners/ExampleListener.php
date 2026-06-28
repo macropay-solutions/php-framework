@@ -3,8 +3,8 @@
 namespace App\Listeners;
 
 use App\Events\ExampleEvent;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use MacropaySolutions\Kernel\Contracts\Queue\ShouldQueue;
+use MacropaySolutions\Kernel\Queue\InteractsWithQueue;
 
 class ExampleListener
 {

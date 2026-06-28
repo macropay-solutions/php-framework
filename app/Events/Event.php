@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use Illuminate\Queue\SerializesModels;
+use MacropaySolutions\Kernel\Queue\SerializesModels;
 
 abstract class Event
 {

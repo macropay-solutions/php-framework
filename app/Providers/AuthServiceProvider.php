@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\ServiceProvider;
+use MacropaySolutions\Kernel\Http\Request;
+use MacropaySolutions\Kernel\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {

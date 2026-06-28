@@ -2,7 +2,7 @@
 
 namespace App\CallablesAsArray\Jobs;
 
-use Illuminate\Contracts\Queue\ShouldBeEncrypted;
+use MacropaySolutions\Kernel\Contracts\Queue\ShouldBeEncrypted;
 use Psr\Log\LoggerInterface;
 
 class EncryptedExample implements ShouldBeEncrypted

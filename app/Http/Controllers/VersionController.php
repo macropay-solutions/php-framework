@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Response;
+use MacropaySolutions\Kernel\Http\Response;
 
 class VersionController extends Controller
 {
