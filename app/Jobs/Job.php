@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use MacropaySolutions\Kernel\Bus\InstanceDispatchable;
 use MacropaySolutions\Kernel\Bus\Queueable;
 use MacropaySolutions\Kernel\Contracts\Queue\ShouldQueue;
 use MacropaySolutions\Kernel\Queue\InteractsWithQueue;
@@ -19,6 +20,7 @@ abstract class Job implements ShouldQueue
     | provides access to the "queueOn" and "delay" queue helper methods.
     |
     */
+    use InstanceDispatchable;
     use InteractsWithQueue;
     use Queueable;
     use SerializesModels;
