@@ -531,13 +531,11 @@ class Application extends \MacropaySolutions\Framework\Application
 //    /**
 //     * Uncomment to use \App\FormRequest
 //     * @inheritdoc
-//     * Used to avoid MacropaySolutions\Kernel\Support\ServiceProvider\FormRequestServiceProvider::boot
 //     */
 //    protected function fireResolvingCallbacks($abstract, $object)
 //    {
 //        $this->fireCallbackArray($object, $this->globalResolvingCallbacks);
 //
-//        /** This avoids MacropaySolutions\Kernel\Support\ServiceProvider\FormRequestServiceProvider::boot */
 //        if ($object instanceof \MacropaySolutions\Kernel\Http\FormRequest) {
 //            \MacropaySolutions\Kernel\Http\FormRequest::createFrom($this->make('request'), $object);
 //
@@ -549,7 +547,6 @@ class Application extends \MacropaySolutions\Framework\Application
 //            $this->getResolvingCallbacksForType($abstract, $object)
 //        );
 //
-//        /** This avoids MacropaySolutions\Kernel\Support\ServiceProvider\FormRequestServiceProvider::boot */
 //        if ($object instanceof \MacropaySolutions\Kernel\Contracts\Validation\ValidatesWhenResolved) {
 //            $object->validateResolved();
 //        }
