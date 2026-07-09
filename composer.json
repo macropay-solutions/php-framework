@@ -41,7 +41,6 @@
             "vendor/macropay-solutions/php-kernel/kernel/Notifications/",
             "vendor/macropay-solutions/php-kernel/kernel/Process/",
             "vendor/macropay-solutions/php-kernel/kernel/Redis/",
-            "vendor/macropay-solutions/php-kernel/kernel/Routing/",
             "vendor/macropay-solutions/php-kernel/kernel/Session/",
             "vendor/macropay-solutions/php-kernel/kernel/View/"
         ]
