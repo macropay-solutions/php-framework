@@ -108,6 +108,7 @@ class Application extends \MacropaySolutions\Framework\Application
 //        \MacropaySolutions\Kernel\View\Engines\EngineResolver::class => 'registerViewBindings',
 //        'session' => 'registerSessionBindings',
 //        'session.store' => 'registerSessionBindings',
+//        \MacropaySolutions\Kernel\Session\Middleware\StartSession::class => 'registerSessionBindings',
 //        'cookie' => 'registerCookieBindings',
 //        'mailer' => 'registerMailBindings',
 //        'mail.manager' => 'registerMailBindings',
