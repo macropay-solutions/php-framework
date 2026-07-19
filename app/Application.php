@@ -22,6 +22,7 @@ class Application extends \MacropaySolutions\Framework\Application
 
     /**
      * Set to true if you need/want
+     * If you do it, YOU MUST empty your queues before deploying.
      */
     public const FORBID_SERIALIZED_CLOSURES = false;
 
