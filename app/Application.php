@@ -21,12 +21,6 @@ class Application extends \MacropaySolutions\Framework\Application
     public const DEFAULT_PARAMETER_TAKES_PRECEDENCE_WHEN_AUTOWIRING = false;
 
     /**
-     * Set to true if you need/want
-     * If you do it, YOU MUST empty your queues before deploying.
-     */
-    public const FORBID_SERIALIZED_CLOSURES = false;
-
-    /**
      * To avoid calls to
      * @see \MacropaySolutions\Framework\Concerns\RoutesRequests::middleware()
      * Make sure this list has UNIQUE values!!!
