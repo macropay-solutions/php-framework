@@ -6,7 +6,6 @@ use MacropaySolutions\Kernel\Bus\InstanceDispatchable;
 use MacropaySolutions\Kernel\Bus\Queueable;
 use MacropaySolutions\Kernel\Contracts\Queue\ShouldQueue;
 use MacropaySolutions\Kernel\Queue\InteractsWithQueue;
-use MacropaySolutions\Kernel\Queue\SerializesModels;
 
 abstract class Job implements ShouldQueue
 {
@@ -23,5 +22,4 @@ abstract class Job implements ShouldQueue
     use InstanceDispatchable;
     use InteractsWithQueue;
     use Queueable;
-    use SerializesModels;
 }
