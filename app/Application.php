@@ -58,7 +58,7 @@ class Application extends \MacropaySolutions\Framework\Application
 //        'auth.driver' => 'registerAuthBindings',
 //        \MacropaySolutions\Kernel\Auth\AuthManager::class => 'registerAuthBindings',
 //        \MacropaySolutions\Kernel\Contracts\Auth\Guard::class => 'registerAuthBindings',
-//        \MacropaySolutions\Kernel\Contracts\Auth\Access\Gate::class => 'registerAuthBindings',
+//        \MacropaySolutions\Kernel\Contracts\Auth\Access\Gate::class => 'registerGateAuthBindings',
 //        \MacropaySolutions\Kernel\Contracts\Broadcasting\Broadcaster::class => 'registerBroadcastingBindings',
 //        \MacropaySolutions\Kernel\Contracts\Broadcasting\Factory::class => 'registerBroadcastingBindings',
         \MacropaySolutions\Kernel\Contracts\Bus\Dispatcher::class => 'registerBusBindings',
