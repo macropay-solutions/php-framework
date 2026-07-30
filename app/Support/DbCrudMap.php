@@ -1,6 +1,6 @@
 <?php
 
-namespace Support;
+namespace App\Support;
 
 class DbCrudMap
 {

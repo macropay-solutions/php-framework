@@ -33,7 +33,7 @@ $router->get('/', [
 
 //foreach (
 //    \MacropaySolutions\CrufdWizard\Helpers\ResourceHelper::getResourceNameToControllerFQNMap(
-//        \Support\DbCrudMap::MODEL_FQN_TO_CONTROLLER_MAP
+//        \App\Support\DbCrudMap::MODEL_FQN_TO_CONTROLLER_MAP
 //    ) as $resource => $controllerFqn
 //) {
 //    $controllerFqnExploded = \explode('\\', $controllerFqn);

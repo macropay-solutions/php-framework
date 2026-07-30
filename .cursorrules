@@ -31,7 +31,7 @@ When working with Models:
 
 ## 3. Routing Architecture
 When adding routes to `routes/web.php`:
-* Use `\MacropaySolutions\CrufdWizard\Helpers\ResourceHelper::getResourceNameToControllerFQNMap` to iterate through `\Support\DbCrudMap::MODEL_FQN_TO_CONTROLLER_MAP`.
+* Use `\MacropaySolutions\CrufdWizard\Helpers\ResourceHelper::getResourceNameToControllerFQNMap` to iterate through `\App\Support\DbCrudMap::MODEL_FQN_TO_CONTROLLER_MAP`.
 * **Standard CRUD Endpoints:** Register GET (list/get), POST (create), PUT (update), and DELETE.
 * **Secure Filtering:** Always include the `POST /{resource}/l/i/s/t` route to handle filters containing sensitive data or large query strings.
 * **Prohibited Routes:** Do NOT attempt to register `listRelation` or `post_listRelated` routes; these are reserved for the **Paid Pro Version**.
