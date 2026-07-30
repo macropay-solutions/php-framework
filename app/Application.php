@@ -332,6 +332,8 @@ class Application extends \MacropaySolutions\Framework\Application
 //         */
 //        $this->routeMiddleware['decorate-' . ResourceClass::RESOURCE_NAME] =
 //            \App\Http\Middleware\ResourceClassDecorator::class;
+//        $this->foundRouteMiddleware['decorate-' . ResourceClass::RESOURCE_NAME] =
+//            \App\Http\Middleware\ResourceClassDecorator::class;
     }
 
     /**
