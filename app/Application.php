@@ -98,7 +98,7 @@ class Application extends \MacropaySolutions\Framework\Application
 //        'view' => 'registerViewBindings',
 //        \MacropaySolutions\Kernel\Contracts\View\Factory::class => 'registerViewBindings',
 //        'view.finder' => 'registerViewBindings',
-//        'blade.compiler' => 'registerViewBindings',
+//        'template.compiler' => 'registerViewBindings',
 //        'view.engine.resolver' => 'registerViewBindings',
 //        \MacropaySolutions\Kernel\View\Engines\EngineResolver::class => 'registerViewBindings',
 //        'session' => 'registerSessionBindings',
@@ -458,8 +458,8 @@ class Application extends \MacropaySolutions\Framework\Application
             'files' => [
                 \MacropaySolutions\Kernel\Filesystem\Filesystem::class,
             ],
-    //        'blade.compiler' => [
-    //            \MacropaySolutions\Kernel\View\Compilers\BladeCompiler::class,
+    //        'template.compiler' => [
+    //            \MacropaySolutions\Kernel\View\Compilers\TemplateCompiler::class,
     //        ],
     //        'view.engine.resolver' => [
     //            \MacropaySolutions\Kernel\View\Engines\EngineResolver::class,
@@ -521,7 +521,7 @@ class Application extends \MacropaySolutions\Framework\Application
             \MacropaySolutions\Kernel\Translation\Translator::class => 'translator',
             \MacropaySolutions\Kernel\Validation\Factory::class => 'validator',
 //            \MacropaySolutions\Kernel\View\Factory::class => 'view',
-//            \MacropaySolutions\Kernel\View\Compilers\BladeCompiler::class => 'blade.compiler',
+//            \MacropaySolutions\Kernel\View\Compilers\TemplateCompiler::class => 'template.compiler',
 //            \MacropaySolutions\Kernel\View\Engines\EngineResolver::class => 'view.engine.resolver',
         ];
     }
