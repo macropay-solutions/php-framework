@@ -68,6 +68,9 @@
         ]
     },
     "config": {
+        "allow-plugins": {
+            "macropay-solutions/php-kernel-dev": true
+        },
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true
