@@ -251,7 +251,7 @@ class Application extends \MacropaySolutions\Framework\Application
     {
         $this->bindings = [
 //            \ParentFqn::class => [
-//                'concrete' => function (
+//                'concrete' => static function (
 //                     \MacropaySolutions\Kernel\Contracts\Container\Container $container,
 //                     array $parameters = []
 //                ): \MacropaySolutions\Kernel\Http\Request {
@@ -264,15 +264,15 @@ class Application extends \MacropaySolutions\Framework\Application
 //                'shared' => false
 //            ],
             \MacropaySolutions\Kernel\Contracts\Debug\ExceptionHandler::class => [
-                'concrete' => fn(): \App\Exceptions\Handler => new \App\Exceptions\Handler(),
+                'concrete' => static fn(): \App\Exceptions\Handler => new \App\Exceptions\Handler(),
                 'shared' => true
             ],
             \MacropaySolutions\Kernel\Contracts\Console\Kernel::class => [
-                'concrete' => fn($app): \App\Console\Kernel => new \App\Console\Kernel($app),
+                'concrete' => static fn($app): \App\Console\Kernel => new \App\Console\Kernel($app),
                 'shared' => true
             ],
             JsonResponse::class => [
-                'concrete' => function ($app, $parameters): JsonResponse {
+                'concrete' => static function ($app, $parameters): JsonResponse {
                     if (
                         false === ($parameters['json'] ?? $parameters[4] ?? false)
                         && \in_array($code =
