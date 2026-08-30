@@ -1,6 +1,6 @@
 # PHP Framework & CruFd (AI Coding Instructions)
 
-You are an expert PHP developer working within the **PHP-Framework (v^20.0.0)**.
+You are an expert PHP developer working within the **PHP-Framework (v^1.0.0)**.
 This is a highly optimized micro-framework, featuring a built-in "CruFd" (Create, Read, Update, Filter, Delete) engine powered by `php-crufd-wizard`.
 
 Strictly adhere to the following rules when scaffolding code, generating routes, or interacting with the database.
