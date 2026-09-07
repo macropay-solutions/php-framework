@@ -52,6 +52,6 @@ class ConfigClearCommand extends Command
 
         $this->app::setBootstrapCacheFiles($this->app->bootstrapPath('cache'));
 
-        $this->components->info('Configuration cache cleared!');
+        $this->info('Configuration cache cleared!');
     }
 }

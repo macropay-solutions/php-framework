@@ -81,6 +81,6 @@ class RouteCacheCommand extends Command
             throw new \LogicException('Your routes are not serializable.', 0, $e);
         }
 
-        $this->components->info('Routes cached successfully.');
+        $this->info('Routes cached successfully.');
     }
 }

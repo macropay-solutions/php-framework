@@ -53,6 +53,6 @@ class RouteClearCommand extends Command
 
         $this->app::setBootstrapCacheFiles($this->app->bootstrapPath('cache'));
 
-        $this->components->info('Route cache cleared successfully.');
+        $this->info('Route cache cleared successfully.');
     }
 }
