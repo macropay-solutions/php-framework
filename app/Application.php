@@ -132,6 +132,8 @@ class Application extends \MacropaySolutions\Framework\Application
                 'CommandsCache' => 'command.commands.cache',
                 'CommandsClear' => 'command.commands.clear',
                 'ClearResets' => 'command.auth.resets.clear',
+                'MacroCache' => 'command.macro.cache',
+                'MacroClear' => 'command.macro.clear',
                 'MergeCachedFilesCache' => 'command.merge-cached-files.cache',
                 'MergeCachedFilesClear' => 'command.merge-cached-files.clear',
                 'Migrate' => 'command.migrate',

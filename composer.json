@@ -30,7 +30,11 @@
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
+            "Database\\Seeders\\": "database/seeders/",
+            "MacropaySolutions\\Framework\\Traitables\\": [
+                "bootstrap/cache/traitables/",
+                "vendor/macropay-solutions/php-kernel/src/Traitables/"
+            ]
         },
         "exclude-from-classmap": [
             "vendor/macropay-solutions/php-kernel/kernel/Broadcasting/",
@@ -58,7 +62,8 @@
             "[ \"$COMPOSER_DEV_MODE\" = \"1\" ] || php run autowiring:cache || echo run autowiring:cache failed",
             "[ \"$COMPOSER_DEV_MODE\" = \"1\" ] || php run event:cache || echo run event:cache failed",
             "[ \"$COMPOSER_DEV_MODE\" = \"1\" ] || php run view:cache || echo run view:cache failed",
-            "[ \"$COMPOSER_DEV_MODE\" = \"1\" ] || php run merge-cached-files:cache || echo run merge-cached-files:cache failed"
+            "[ \"$COMPOSER_DEV_MODE\" = \"1\" ] || php run merge-cached-files:cache || echo run merge-cached-files:cache failed",
+            "[ \"$COMPOSER_DEV_MODE\" = \"1\" ] || php run macro:cache || echo run macro:cache failed"
         ],
         "post-root-package-install": [
             "[ \"$COMPOSER_DEV_MODE\" = \"0\" ] || php -r \"file_exists('.env') || copy('.env.example', '.env');\""
