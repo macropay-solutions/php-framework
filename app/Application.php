@@ -264,7 +264,10 @@ class Application extends \MacropaySolutions\Framework\Application
     protected function registerExplicitBindingsMap(): void
     {
 //        /**
-//         * To avoid calls to
+//         * Use this method for dynamic middlewares or configurations that
+//         * CANNOT be declared in static properties (e.g., those requiring runtime logic,
+//         * loops, or function calls).
+//         *
 //         * @see \MacropaySolutions\Framework\Concerns\RoutesRequests::routeMiddleware()
 //         * and if declaring the middleware directly in property is not possible.
 //         * Note that you can use the middleware FQN on a route without declaring its alias here!
