@@ -74,7 +74,7 @@ class Application extends \MacropaySolutions\Framework\Application
      *
      * @var array
      */
-    public $availableBindings = [
+    protected array $availableBindings = [
 //        'auth' => 'registerAuthBindings',
 //        'auth.driver' => 'registerAuthBindings',
 //        \MacropaySolutions\Kernel\Auth\AuthManager::class => 'registerAuthBindings',

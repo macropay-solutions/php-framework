@@ -85,7 +85,7 @@ class ConfigCacheCommand extends Command
         $app->make(ConsoleKernelContract::class)->bootstrap();
         $app->boot();
 
-        foreach ($app->availableBindings as $binding => $resolver) {
+        foreach ($app->getAvailableBindings() as $binding => $resolver) {
             try {
                 $app->make($binding);
             } catch (\Throwable $e) {
