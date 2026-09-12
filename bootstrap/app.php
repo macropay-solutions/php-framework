@@ -28,7 +28,7 @@ $app = new App\Application(\dirname(__DIR__));
 | your own bindings here if you like or you can make another file.
 |
 | Moved to:
-* @see \App\Application::registerExplicitBindingsMap
+* @see \App\Application::bindings
 */
 
 /**
@@ -72,8 +72,8 @@ if (!$app->configurationIsCached()) {
 | totally optional, so you are not required to uncomment this line.
 |
 | Note that if you want to speed up the boot process, you can move the provider register content into:
-* @see \App\Application::registerExplicitBindingsMap
-| Pay attention to $this->app usage in the callbacks. It should become $this in registerExplicitBindingsMap as
+* @see \App\Application::$bindings
+| Pay attention to $this->app usage in the callbacks. It should become $app as
 | the context in which the callback is defined changes.
 |
 | The register call bellow is still needed if you have logic in boot method

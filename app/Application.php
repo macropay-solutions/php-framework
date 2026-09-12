@@ -47,6 +47,27 @@ class Application extends \MacropaySolutions\Framework\Application
     ];
 
     /**
+     * Pre-compiled bindings array.
+     * Replaces closure-based bindings to be loaded directly into memory by OPcache.
+     * @see Application::registerContainerAliases() to handle alias changes if impacted by additions here
+     * @var array[]
+     */
+    protected array $bindings = [
+        \MacropaySolutions\Kernel\Contracts\Debug\ExceptionHandler::class => [
+            'concrete' => [\App\Factories\ContainerBindingsFactory::class, 'createExceptionHandler'],
+            'shared' => true,
+        ],
+        \MacropaySolutions\Kernel\Contracts\Console\Kernel::class => [
+            'concrete' => [\App\Factories\ContainerBindingsFactory::class, 'createConsoleKernel'],
+            'shared' => true,
+        ],
+        JsonResponse::class => [
+            'concrete' => [\App\Factories\ContainerBindingsFactory::class, 'createJsonResponse'],
+            'shared' => false,
+        ],
+    ];
+
+    /**
      * The available container bindings and their respective load methods.
      * Uncomment the needed bindings and also, remove their module from composer.json autoload exclude-from-classmap
      * @see \App\Application::prepareForConsoleCommand also
@@ -238,98 +259,14 @@ class Application extends \MacropaySolutions\Framework\Application
     }
 
     /**
-     * Set all the container bindings that should be registered when the app is instantiated
-     * @see \MacropaySolutions\Kernel\Container\Container::getClosure for Closure format
-     * @see static::registerContainerAliases to handle alias changes if impacted by this function
-     * Must set array shape:
-     * [
-     *     "{$abstractString}" => [
-     *         'concrete' => \Closure,
-     *         'shared' => bool
-     *     ],
-     * ]
+     * Register dynamic middlewares or other non-binding map configurations.
      */
     protected function registerExplicitBindingsMap(): void
     {
-        $this->bindings = [
-//            \ParentFqn::class => [
-//                'concrete' => static function (
-//                     \MacropaySolutions\Kernel\Contracts\Container\Container $container,
-//                     array $parameters = []
-//                ): \MacropaySolutions\Kernel\Http\Request {
-//                    return $container->resolve(
-//                        \ChildFqn::class, // your child class
-//                        $parameters,
-//                        false
-//                    );
-//                },
-//                'shared' => false
-//            ],
-            \MacropaySolutions\Kernel\Contracts\Debug\ExceptionHandler::class => [
-                'concrete' => static fn(): \App\Exceptions\Handler => new \App\Exceptions\Handler(),
-                'shared' => true
-            ],
-            \MacropaySolutions\Kernel\Contracts\Console\Kernel::class => [
-                'concrete' => static fn($app): \App\Console\Kernel => new \App\Console\Kernel($app),
-                'shared' => true
-            ],
-            JsonResponse::class => [
-                'concrete' => static function ($app, $parameters): JsonResponse {
-                    if (
-                        false === ($parameters['json'] ?? $parameters[4] ?? false)
-                        && \in_array($code =
-                            (string)($parameters['status'] ?? $parameters[1] ?? '200'), ['200', '201', '202'], true)
-                        && \is_string(
-                            $decoratorFlag = ($request = $app['request'])->header(
-                                GeneralHelper::JSON_RESPONSE_AS_ARRAY_FOR_DECORATION_IN_REQUEST_ATTRIBUTES
-                            )
-                        )
-                        && '' !== (string)($appKey = $app['config']->get('app.key'))
-                        && \hash_equals(
-                            $decoratorFlag,
-                            \hash_hmac('sha256', GeneralHelper::JSON_RESPONSE_AS_ARRAY, $appKey)
-                        )
-                    ) {
-                        if (\is_array($parameters['data'] ?? null)) {
-                            $request->attributes->set(GeneralHelper::JSON_RESPONSE_AS_ARRAY, $parameters['data']);
-
-                            return new DecoratableJsonResponse(
-                                [],
-                                $code,
-                                $parameters['headers'] ?? [],
-                                $parameters['options'] ?? JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES,
-                                false
-                            );
-                        }
-
-                        if (\is_array($parameters[0] ?? null)) {
-                            $request->attributes->set(GeneralHelper::JSON_RESPONSE_AS_ARRAY, $parameters[0]);
-
-                            return new DecoratableJsonResponse(
-                                [],
-                                $code,
-                                $parameters[2] ?? [],
-                                $parameters[3] ?? JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES,
-                                false
-                            );
-                        }
-                    }
-
-                    return new JsonResponse(
-                        $parameters['data'] ?? $parameters[0] ?? null,
-                        $parameters['status'] ?? $parameters[1] ?? 200,
-                        $parameters['headers'] ?? $parameters[2] ?? [],
-                        $parameters['options'] ?? $parameters[3] ?? JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES,
-                        $parameters['json'] ?? $parameters[4] ?? false,
-                    );
-                },
-                'shared' => false
-            ],
-        ];
-//
 //        /**
 //         * To avoid calls to
 //         * @see \MacropaySolutions\Framework\Concerns\RoutesRequests::routeMiddleware()
+//         * and if declaring the middleware directly in property is not possible.
 //         * Note that you can use the middleware FQN on a route without declaring its alias here!
 //         */
 //        $this->routeMiddleware['decorate-' . ResourceClass::RESOURCE_NAME] =
