@@ -4,6 +4,7 @@ namespace App;
 
 use Composer\InstalledVersions;
 use FastRoute\Dispatcher;
+use MacropaySolutions\CrufdWizard\Providers\CrufdProvider;
 use MacropaySolutions\Framework\Bootstrap\LoadEnvironmentVariables;
 use MacropaySolutions\Framework\Console\ConsoleServiceProvider;
 use MacropaySolutions\Kernel\Database\MigrationServiceProvider;
@@ -59,7 +60,7 @@ class Application extends \MacropaySolutions\Framework\Application
             'shared' => true,
         ],
         JsonResponse::class => [
-            'concrete' => [\App\Factories\ContainerBindingsFactory::class, 'createJsonResponse'],
+            'concrete' => [CrufdProvider::class, 'createJsonResponse'],
             'shared' => false,
         ],
     ];
