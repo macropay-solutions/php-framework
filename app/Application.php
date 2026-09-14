@@ -4,11 +4,8 @@ namespace App;
 
 use Composer\InstalledVersions;
 use FastRoute\Dispatcher;
-use MacropaySolutions\CrufdWizard\Helpers\GeneralHelper;
-use MacropaySolutions\CrufdWizard\Responses\DecoratableJsonResponse;
 use MacropaySolutions\Framework\Bootstrap\LoadEnvironmentVariables;
 use MacropaySolutions\Framework\Console\ConsoleServiceProvider;
-use MacropaySolutions\Kernel\Config\Repository;
 use MacropaySolutions\Kernel\Database\MigrationServiceProvider;
 use MacropaySolutions\Kernel\Http\JsonResponse;
 use MacropaySolutions\Kernel\Mail\MailServiceProvider;
@@ -227,11 +224,7 @@ class Application extends \MacropaySolutions\Framework\Application
      */
     protected function registerConfigBindings(): void
     {
-        $this->singleton('config', function (\App\Application $app): Repository {
-            return new Repository($app->configurationIsCached() ?
-                $app::getCachedFileContentsFromMemory($app::CONFIG_PHP) ?? require $app->getCachedConfigPath() :
-                []);
-        });
+        $this->singleton('config', [\App\Factories\ContainerBindingsFactory::class, 'createConfigRepository']);
     }
 
     /**
