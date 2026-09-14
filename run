@@ -16,10 +16,6 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 */
 require_once __DIR__ . '/vendor/autoload.php';
 
-if (($_SERVER['argv'][1] ?? '') === 'autowiring:cache') {
-    \MacropaySolutions\Kernel\Container\BoundMethod::enableClassesFqnsToCacheForAutowire();
-}
-
 $app = require __DIR__ . '/bootstrap/app.php';
 
 /*
