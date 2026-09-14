@@ -23,7 +23,7 @@ class Application extends \MacropaySolutions\Framework\Application
      * @see \MacropaySolutions\Framework\Concerns\RoutesRequests::middleware()
      * Make sure this list has UNIQUE values!!!
      */
-    protected $middleware = [
+    protected array $middleware = [
         // \App\Http\Middleware\TrustProxies::class,
     ];
 
@@ -40,7 +40,7 @@ class Application extends \MacropaySolutions\Framework\Application
      * @see \MacropaySolutions\Framework\Concerns\RoutesRequests::routeMiddleware()
      * Note that you can use the middleware FQN on a route without declaring its alias here!
      */
-    protected $routeMiddleware = [
+    protected array $routeMiddleware = [
         //'auth' => \App\Http\Middleware\Authenticate::class,
     ];
 
