@@ -34,7 +34,8 @@
             "MacropaySolutions\\Framework\\Traitables\\": [
                 "bootstrap/cache/traitables/",
                 "vendor/macropay-solutions/php-kernel/src/Traitables/"
-            ]
+            ],
+            "MacropaySolutions\\Framework\\Autowiring\\": "bootstrap/cache/autowiring/"
         },
         "exclude-from-classmap": [
             "vendor/macropay-solutions/php-kernel/kernel/Broadcasting/",
