@@ -47,7 +47,8 @@ class Application extends \MacropaySolutions\Framework\Application
     /**
      * Pre-compiled bindings array.
      * Replaces closure-based bindings to be loaded directly into memory by OPcache.
-     * @see Application::registerContainerAliases() to handle alias changes if impacted by additions here
+     * @see Application::aliases to handle alias changes if impacted by additions here
+     * @see Application::$abstractAliases to handle alias changes if impacted by additions here
      * @var array[]
      */
     protected array $bindings = [

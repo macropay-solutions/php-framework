@@ -11,7 +11,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 | that serves as the central piece of this framework. We'll use this
 | application as an "IoC" container and router for this framework.
 |
-| See also \App\Application::$availableBindings and \App\Application::registerContainerAliases
+| See also \App\Application::$availableBindings and \App\Application::aliases and Application::abstractAliases
 | Uncomment from there and remove from composer.json autoload exclude-from-classmap the extra modules that you need.
 |
 */
