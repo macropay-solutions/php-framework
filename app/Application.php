@@ -89,6 +89,8 @@ class Application extends \MacropaySolutions\Framework\Application
             'concrete' => [self::class, 'getGate'],
             'shared' => true
         ],
+
+        // App Overrides & Additions
         \MacropaySolutions\Kernel\Contracts\Debug\ExceptionHandler::class => [
             'concrete' => [\App\Factories\ContainerBindingsFactory::class, 'createExceptionHandler'],
             'shared' => true,
