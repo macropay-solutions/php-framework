@@ -10,6 +10,7 @@ use MacropaySolutions\Framework\Console\ConsoleServiceProvider;
 use MacropaySolutions\Kernel\Database\MigrationServiceProvider;
 use MacropaySolutions\Kernel\Http\JsonResponse;
 use MacropaySolutions\Kernel\Mail\MailServiceProvider;
+use Psr\Log\LoggerInterface;
 
 class Application extends \MacropaySolutions\Framework\Application
 {
@@ -52,6 +53,42 @@ class Application extends \MacropaySolutions\Framework\Application
      * @var array[]
      */
     protected array $bindings = [
+        'config' => [
+            'concrete' => [self::class, 'getConfig'],
+            'shared' => true
+        ],
+        'composer' => [
+            'concrete' => [self::class, 'getComposer'],
+            'shared' => true
+        ],
+        'files' => [
+            'concrete' => [self::class, 'getFiles'],
+            'shared' => true
+        ],
+        LoggerInterface::class => [
+            'concrete' => [self::class, 'getLogger'],
+            'shared' => true
+        ],
+        'router' => [
+            'concrete' => [self::class, 'getRouter'],
+            'shared' => true
+        ],
+        ServerRequestInterface::class => [
+            'concrete' => [self::class, 'getPsrRequest'],
+            'shared' => true
+        ],
+        ResponseInterface::class => [
+            'concrete' => [self::class, 'getPsrResponse'],
+            'shared' => true
+        ],
+        'url' => [
+            'concrete' => [self::class, 'getUrlGenerator'],
+            'shared' => true
+        ],
+        \MacropaySolutions\Kernel\Contracts\Auth\Access\Gate::class => [
+            'concrete' => [self::class, 'getGate'],
+            'shared' => true
+        ],
         \MacropaySolutions\Kernel\Contracts\Debug\ExceptionHandler::class => [
             'concrete' => [\App\Factories\ContainerBindingsFactory::class, 'createExceptionHandler'],
             'shared' => true,
@@ -63,10 +100,6 @@ class Application extends \MacropaySolutions\Framework\Application
         JsonResponse::class => [
             'concrete' => [CrufdProvider::class, 'createJsonResponse'],
             'shared' => false,
-        ],
-        'config' => [
-            'concrete' => [\App\Factories\ContainerBindingsFactory::class, 'createConfigRepository'],
-            'shared' => true,
         ],
     ];
 
