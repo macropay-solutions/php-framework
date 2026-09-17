@@ -10,7 +10,7 @@
 Documentation for the framework can be found in the [Wiki](https://github.com/macropay-solutions/php-framework/wiki) section and in [https://macropay-solutions.github.io/php-framework-docs](https://macropay-solutions.github.io/php-framework-docs).
 
 ## AI-Friendly Framework
-It ships with a pre-configured .cursorrules file in the root directory. If you are using Cursor, Copilot, or Claude, your AI assistant already knows exactly how to generate resources, map routes, and write RetrieveQL queries.
+It ships with a pre-configured .cursorrules file in the root directory. If you are using Cursor, Copilot, or Claude, your AI assistant already knows exactly how to generate resources, map routes, and write CrufdQL queries.
 
 ## Contributing
 

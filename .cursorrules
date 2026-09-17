@@ -36,7 +36,7 @@ When adding routes to `routes/web.php`:
 * **Secure Filtering:** Always include the `POST /{resource}/l/i/s/t` route to handle filters containing sensitive data or large query strings.
 * **Prohibited Routes:** Do NOT attempt to register `listRelation` or `post_listRelated` routes; these are reserved for the **Paid Pro Version**.
 
-## 4. RetrieveQL Free Limitations
+## 4. CrufdQL Free Limitations
 When generating client-side requests, testing URLs, or writing documentation:
 * **Operator restriction:** Only use strict equality filters (e.g., `?status=active`).
 * **Aggregations:** Do NOT use `withSum`, `withAvg`, `withMin`, `withMax`, or `groupBy`. These require an upgrade to the Pro suite (`php-rest-wizard`).
