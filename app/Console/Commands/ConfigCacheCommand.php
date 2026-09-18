@@ -93,6 +93,6 @@ class ConfigCacheCommand extends Command
             }
         }
 
-        return $app['config']->all();
+        return $app->make('config')->all();
     }
 }
