@@ -120,7 +120,10 @@ class Application extends \MacropaySolutions\Framework\Application
 //        \MacropaySolutions\Kernel\Contracts\Auth\Access\Gate::class => 'registerGateAuthBindings',
 //        \MacropaySolutions\Kernel\Contracts\Broadcasting\Broadcaster::class => 'registerBroadcastingBindings',
 //        \MacropaySolutions\Kernel\Contracts\Broadcasting\Factory::class => 'registerBroadcastingBindings',
+//        \MacropaySolutions\Kernel\Broadcasting\BroadcastManager::class => 'registerBroadcastingBindings',
         \MacropaySolutions\Kernel\Contracts\Bus\Dispatcher::class => 'registerBusBindings',
+        \MacropaySolutions\Kernel\Contracts\Bus\QueueingDispatcher::class => 'registerBusBindings',
+        \MacropaySolutions\Kernel\Bus\Dispatcher::class => 'registerBusBindings',
         'cache' => 'registerCacheBindings',
         'cache.store' => 'registerCacheBindings',
         \MacropaySolutions\Kernel\Contracts\Cache\Factory::class => 'registerCacheBindings',
@@ -158,6 +161,9 @@ class Application extends \MacropaySolutions\Framework\Application
 //        'mailer' => 'registerMailBindings',
 //        'mail.manager' => 'registerMailBindings',
 //        \MacropaySolutions\Kernel\Mail\Markdown::class => 'registerMailBindings',
+//        \MacropaySolutions\Kernel\Contracts\Notifications\Dispatcher::class => 'registerNotificationBindings',
+//        \MacropaySolutions\Kernel\Contracts\Notifications\Factory::class => 'registerNotificationBindings',
+//        \MacropaySolutions\Kernel\Notifications\ChannelManager::class => 'registerNotificationBindings',
     ];
     
     protected array $abstractAliases = [
@@ -282,6 +288,17 @@ class Application extends \MacropaySolutions\Framework\Application
 //        'view.engine.resolver' => [
 //        \MacropaySolutions\Kernel\View\Engines\EngineResolver::class,
 //        ],
+//        \MacropaySolutions\Kernel\Broadcasting\BroadcastManager::class => [
+//            \MacropaySolutions\Kernel\Contracts\Broadcasting\Factory::class,
+//        ],
+        \MacropaySolutions\Kernel\Bus\Dispatcher::class => [
+            \MacropaySolutions\Kernel\Contracts\Bus\Dispatcher::class,
+            \MacropaySolutions\Kernel\Contracts\Bus\QueueingDispatcher::class,
+        ],
+//        \MacropaySolutions\Kernel\Notifications\ChannelManager::class => [
+//            \MacropaySolutions\Kernel\Contracts\Notifications\Dispatcher::class,
+//            \MacropaySolutions\Kernel\Contracts\Notifications\Factory::class,
+//        ],
     ];
 
     protected array $aliases = [
@@ -342,6 +359,15 @@ class Application extends \MacropaySolutions\Framework\Application
 //        \MacropaySolutions\Kernel\View\Factory::class => 'view',
 //        \MacropaySolutions\Kernel\View\Compilers\TemplateCompiler::class => 'template.compiler',
 //        \MacropaySolutions\Kernel\View\Engines\EngineResolver::class => 'view.engine.resolver',
+//        \MacropaySolutions\Kernel\Contracts\Broadcasting\Factory::class =>
+//            \MacropaySolutions\Kernel\Broadcasting\BroadcastManager::class,
+        \MacropaySolutions\Kernel\Contracts\Bus\Dispatcher::class => \MacropaySolutions\Kernel\Bus\Dispatcher::class,
+        \MacropaySolutions\Kernel\Contracts\Bus\QueueingDispatcher::class =>
+            \MacropaySolutions\Kernel\Bus\Dispatcher::class,
+//        \MacropaySolutions\Kernel\Contracts\Notifications\Dispatcher::class =>
+//            \MacropaySolutions\Kernel\Notifications\ChannelManager::class,
+//        \MacropaySolutions\Kernel\Contracts\Notifications\Factory::class =>
+//            \MacropaySolutions\Kernel\Notifications\ChannelManager::class,
         ];
 
     /**
