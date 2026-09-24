@@ -168,6 +168,8 @@ class Application extends \MacropaySolutions\Framework\Application
     
     protected array $abstractAliases = [
         'app' => [
+            \App\Application::class,
+            \MacropaySolutions\Framework\Application::class,
             \MacropaySolutions\Kernel\Contracts\Foundation\Application::class,
             \MacropaySolutions\Kernel\Container\Container::class,
             \MacropaySolutions\Kernel\Contracts\Container\Container::class,
@@ -302,6 +304,8 @@ class Application extends \MacropaySolutions\Framework\Application
     ];
 
     protected array $aliases = [
+        \App\Application::class => 'app',
+        \MacropaySolutions\Framework\Application::class => 'app',
         \MacropaySolutions\Kernel\Contracts\Foundation\Application::class => 'app',
 //        \MacropaySolutions\Kernel\Contracts\Auth\Factory::class => 'auth',
 //        \MacropaySolutions\Kernel\Contracts\Auth\Guard::class => 'auth.driver',
