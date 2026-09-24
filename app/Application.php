@@ -490,26 +490,6 @@ class Application extends \MacropaySolutions\Framework\Application
         ]);
     }
 
-    /**
-     * Register dynamic middlewares or other non-binding map configurations.
-     */
-    protected function registerExplicitBindingsMap(): void
-    {
-//        /**
-//         * Use this method for dynamic middlewares or configurations that
-//         * CANNOT be declared in static properties (e.g., those requiring runtime logic,
-//         * loops, or function calls).
-//         *
-//         * @see \MacropaySolutions\Framework\Concerns\RoutesRequests::routeMiddleware()
-//         * and if declaring the middleware directly in property is not possible.
-//         * Note that you can use the middleware FQN on a route without declaring its alias here!
-//         */
-//        $this->routeMiddleware['decorate-' . ResourceClass::RESOURCE_NAME] =
-//        \App\Http\Middleware\ResourceClassDecorator::class;
-//        $this->foundRouteMiddleware['decorate-' . ResourceClass::RESOURCE_NAME] =
-//        \App\Http\Middleware\ResourceClassDecorator::class;
-    }
-
 //    /**
 //     * Uncomment to use \App\FormRequest
 //     * @inheritdoc
