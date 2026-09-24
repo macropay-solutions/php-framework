@@ -431,7 +431,7 @@ class Application extends \MacropaySolutions\Framework\Application
 
     public function __construct(?string $basePath = null)
     {
-        $this->basePath = $basePath ?? ($this->runningInConsole() ? \getcwd() : \realpath(\getcwd() . '/../'));
+        $this->basePath = $basePath ?? (string)($this->runningInConsole() ? \getcwd() : \realpath(\getcwd() . '/../'));
 
         static::setBootstrapCacheFiles($this->bootstrapPath('cache'));
 
