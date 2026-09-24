@@ -435,18 +435,19 @@ class Application extends \MacropaySolutions\Framework\Application
 
         static::setBootstrapCacheFiles($this->bootstrapPath('cache'));
 
-        if (!$this->configurationIsCached()) {
-            (new LoadEnvironmentVariables(\dirname(__DIR__)))->bootstrap();
-            \date_default_timezone_set(\env('APP_TIMEZONE', 'UTC'));
+        if ($this->configurationIsCached()) {
+            parent::__construct();
 
-            parent::__construct($basePath);
+            \date_default_timezone_set($this->make('config')->get('app.timezone', 'UTC'));
 
             return;
         }
 
-        parent::__construct($basePath);
+        (new LoadEnvironmentVariables($basePath))->bootstrap();
 
-        \date_default_timezone_set(\config('app.timezone', 'UTC'));
+        \date_default_timezone_set(\env('APP_TIMEZONE', 'UTC'));
+
+        parent::__construct();
     }
 
     /**
