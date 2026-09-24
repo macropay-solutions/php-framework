@@ -421,7 +421,7 @@ class Application extends \MacropaySolutions\Framework\Application
             ];
         });
 
-        if (InstalledVersions::isInstalled('macropay-solutions/php-kernel-dev')) {
+        if (static::$isDevEnv) {
             $this->register(\MacropaySolutions\KernelDev\ServiceProvider::class);
             $this->register(
                 \MacropaySolutions\CrufdWizardGenerator\CrufdWizardGeneratorServiceProvider::class
