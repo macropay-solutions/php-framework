@@ -436,7 +436,7 @@ class Application extends \MacropaySolutions\Framework\Application
         static::setBootstrapCacheFiles($this->bootstrapPath('cache'));
 
         if ($this->configurationIsCached()) {
-            parent::__construct();
+            parent::__construct($this->basePath);
 
             \date_default_timezone_set($this->make('config')->get('app.timezone', 'UTC'));
 
@@ -447,7 +447,7 @@ class Application extends \MacropaySolutions\Framework\Application
 
         \date_default_timezone_set(\env('APP_TIMEZONE', 'UTC'));
 
-        parent::__construct();
+        parent::__construct($this->basePath);
     }
 
     /**
