@@ -23,6 +23,7 @@
         "ext-zend-opcache": "*",
         "league/commonmark": "Required for Markdown mailables (^2.6)",
         "macropay-solutions/php-crufd-wizard-client": "^1.0.0",
+        "symfony/cache": "Required to use PSR-6 cache bridge (^7.4).",
         "symfony/mailer": "Required to send emails (^7.4)",
         "tijsverkoyen/css-to-inline-styles": "Required for HTML email styling (^2.2.5)"
     },
