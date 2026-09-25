@@ -178,10 +178,10 @@ class Application extends \MacropaySolutions\Framework\Application
         \MacropaySolutions\Kernel\Session\Middleware\StartSession::class => 'registerSessionBindings',
         'cookie' => 'registerCookieBindings',
 
-        // --- MAIL ---
-        'mailer' => 'registerMailBindings',
-        'mail.manager' => 'registerMailBindings',
-        \MacropaySolutions\Kernel\Mail\Markdown::class => 'registerMailBindings',
+//        // --- MAIL ---
+//        'mailer' => 'registerMailBindings',
+//        'mail.manager' => 'registerMailBindings',
+//        \MacropaySolutions\Kernel\Mail\Markdown::class => 'registerMailBindings',
 
         // --- NOTIFICATIONS ---
         \MacropaySolutions\Kernel\Contracts\Notifications\Dispatcher::class => 'registerNotificationBindings',
