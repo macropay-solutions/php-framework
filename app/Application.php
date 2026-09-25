@@ -6,6 +6,7 @@ use FastRoute\Dispatcher;
 use MacropaySolutions\CrufdWizard\Providers\CrufdProvider;
 use MacropaySolutions\Framework\Bootstrap\LoadEnvironmentVariables;
 use MacropaySolutions\Framework\Console\ConsoleServiceProvider;
+use MacropaySolutions\Kernel\Events\EventServiceProvider;
 use MacropaySolutions\Kernel\Http\JsonResponse;
 use MacropaySolutions\Kernel\Mail\MailServiceProvider;
 use Psr\Log\LoggerInterface;
@@ -438,6 +439,12 @@ class Application extends \MacropaySolutions\Framework\Application
     {
         parent::registerAuthBindings();
         $this->register(\App\Providers\AuthServiceProvider::class);
+    }
+
+    protected function registerEventBindings()
+    {
+        $this->register(EventServiceProvider::class);
+        $this->register(\App\Providers\EventServiceProvider::class);
     }
 
     /**
