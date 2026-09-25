@@ -36,19 +36,7 @@
                 "vendor/macropay-solutions/php-kernel/src/Traitables/"
             ],
             "MacropaySolutions\\Framework\\Autowiring\\": "bootstrap/cache/autowiring/"
-        },
-        "exclude-from-classmap": [
-            "vendor/macropay-solutions/php-kernel/kernel/Broadcasting/",
-            "vendor/macropay-solutions/php-kernel/kernel/Cookie/",
-            "vendor/macropay-solutions/php-kernel/kernel/Encryption/",
-            "vendor/macropay-solutions/php-kernel/kernel/Hashing/",
-            "vendor/macropay-solutions/php-kernel/kernel/Mail/",
-            "vendor/macropay-solutions/php-kernel/kernel/Notifications/",
-            "vendor/macropay-solutions/php-kernel/kernel/Process/",
-            "vendor/macropay-solutions/php-kernel/kernel/Redis/",
-            "vendor/macropay-solutions/php-kernel/kernel/Session/",
-            "vendor/macropay-solutions/php-kernel/kernel/View/"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {
