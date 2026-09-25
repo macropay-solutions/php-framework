@@ -52,7 +52,7 @@ class Application extends \MacropaySolutions\Framework\Application
      */
     protected array $bindings = [
         'config' => [
-            'concrete' => [self::class, 'getConfig'],
+            'concrete' => [\App\Factories\ContainerBindingsFactory::class, 'createConfigRepository'],
             'shared' => true
         ],
         'composer' => [

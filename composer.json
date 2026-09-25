@@ -6,9 +6,9 @@
     "type": "project",
     "require": {
         "php": "^8.2",
-        "macropay-solutions/php-kernel": "^1.0.0",
         "macropay-solutions/php-crufd-wizard": "^1.0.0",
         "macropay-solutions/php-crufd-wizard-decorator": "^1.0.0",
+        "macropay-solutions/php-kernel": "^1.0.0",
         "nikic/fast-route": "^1.3"
     },
     "require-dev": {
@@ -45,9 +45,11 @@
     },
     "scripts": {
         "post-autoload-dump": [
+            "[ \"$COMPOSER_DEV_MODE\" = \"1\" ] || php run macro:clear || echo run macro:clear failed",
+            "[ \"$COMPOSER_DEV_MODE\" = \"1\" ] || php run merge-cached-files:clear || echo run merge-cached-files:clear failed",
+            "[ \"$COMPOSER_DEV_MODE\" = \"1\" ] || php run config:cache || echo run config:cache failed",
             "[ \"$COMPOSER_DEV_MODE\" = \"1\" ] || php run commands:cache || echo run commands:cache failed",
             "[ \"$COMPOSER_DEV_MODE\" = \"1\" ] || php run route:cache || echo run route:cache failed",
-            "[ \"$COMPOSER_DEV_MODE\" = \"1\" ] || php run config:cache || echo run config:cache failed",
             "[ \"$COMPOSER_DEV_MODE\" = \"1\" ] || php run autowiring:cache || echo run autowiring:cache failed",
             "[ \"$COMPOSER_DEV_MODE\" = \"1\" ] || php run event:cache || echo run event:cache failed",
             "[ \"$COMPOSER_DEV_MODE\" = \"1\" ] || php run view:cache || echo run view:cache failed",
