@@ -6,7 +6,6 @@ use FastRoute\Dispatcher;
 use MacropaySolutions\CrufdWizard\Providers\CrufdProvider;
 use MacropaySolutions\Framework\Bootstrap\LoadEnvironmentVariables;
 use MacropaySolutions\Framework\Console\ConsoleServiceProvider;
-use MacropaySolutions\Kernel\Cache\CacheServiceProvider;
 use MacropaySolutions\Kernel\Database\MigrationServiceProvider;
 use MacropaySolutions\Kernel\Http\JsonResponse;
 use MacropaySolutions\Kernel\Mail\MailServiceProvider;
@@ -126,6 +125,9 @@ class Application extends \MacropaySolutions\Framework\Application
         \MacropaySolutions\Kernel\Bus\Dispatcher::class => 'registerBusBindings',
         'cache' => 'registerCacheBindings',
         'cache.store' => 'registerCacheBindings',
+        'cache.psr6' => 'registerCacheBindings',
+        'memcached.connector' => 'registerCacheBindings',
+        \MacropaySolutions\Kernel\Cache\RateLimiter::class => 'registerCacheBindings',
         \MacropaySolutions\Kernel\Contracts\Cache\Factory::class => 'registerCacheBindings',
         \MacropaySolutions\Kernel\Contracts\Cache\Repository::class => 'registerCacheBindings',
         'db' => 'registerDatabaseBindings',
@@ -143,6 +145,9 @@ class Application extends \MacropaySolutions\Framework\Application
 //        \MacropaySolutions\Kernel\Contracts\Hashing\Hasher::class => 'registerHashBindings',
 //        'queue' => 'registerQueueBindings',
 //        'queue.connection' => 'registerQueueBindings',
+//        'queue.worker' => 'registerQueueBindings',
+//        'queue.listener' => 'registerQueueBindings',
+//        'queue.failer' => 'registerQueueBindings',
 //        \MacropaySolutions\Kernel\Contracts\Queue\Factory::class => 'registerQueueBindings',
 //        \MacropaySolutions\Kernel\Contracts\Queue\Queue::class => 'registerQueueBindings',
         'translator' => 'registerTranslationBindings',
@@ -433,9 +438,9 @@ class Application extends \MacropaySolutions\Framework\Application
             ];
         };
 
-        if ($this->commandsAreCached()) {
-            $this->registerLazyAvailableBindings();
+        $this->registerLazyAvailableBindings();
 
+        if ($this->commandsAreCached()) {
             return;
         }
 
@@ -449,30 +454,6 @@ class Application extends \MacropaySolutions\Framework\Application
         $this->register($this->consoleProvider);
 
         if (static::$isDevEnv) {
-            $this->registerDevConsoleProviders();
-        }
-    }
-
-    protected function registerLazyAvailableBindings(): void
-    {
-        foreach ((new CacheServiceProvider($this))->provides() as $key) {
-            $this->availableBindings[$key] = 'registerCacheBindings';
-        }
-
-//        foreach ((new QueueServiceProvider($this))->provides() as $key) {
-//            $this->availableBindings[$key] = 'registerQueueBindings';
-//        }
-
-        foreach ((new MigrationServiceProvider($this))->provides() as $key) {
-            $this->availableBindings[$key] = 'registerMigrationServiceProvider';
-        }
-
-        foreach ($this->consoleProvider->provides() as $key) {
-            $this->availableBindings[$key] = 'registerConsoleServiceProvider' . \hash('sha256', $key);
-        }
-
-        if (static::$isDevEnv) {
-            $this->configure('database');
             $this->registerDevConsoleProviders();
         }
     }
