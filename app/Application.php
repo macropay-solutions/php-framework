@@ -434,6 +434,12 @@ class Application extends \MacropaySolutions\Framework\Application
         parent::__construct($this->basePath);
     }
 
+    protected function registerAuthBindings()
+    {
+        parent::registerAuthBindings();
+        $this->register(\App\Providers\AuthServiceProvider::class);
+    }
+
     /**
      * Get the path to the fast routes cache file.
      */

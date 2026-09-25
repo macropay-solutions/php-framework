@@ -91,7 +91,9 @@ if (!$app->configurationIsCached()) {
 */
 
 // $app->register(App\Providers\AppServiceProvider::class);
- $app->register(App\Providers\AuthServiceProvider::class);
+/**
+ * @see \App\Application::registerAuthBindings for App\Providers\AuthServiceProvider::class
+ */
 // $app->register(App\Providers\EventServiceProvider::class);
 
 /**
