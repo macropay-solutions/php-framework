@@ -438,9 +438,9 @@ class Application extends \MacropaySolutions\Framework\Application
             ];
         };
 
-        $this->registerLazyAvailableBindings();
-
         if ($this->commandsAreCached()) {
+            $this->registerLazyAvailableBindings();
+
             return;
         }
 
