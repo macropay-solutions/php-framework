@@ -45,7 +45,18 @@ $app = new App\Application(\dirname(__DIR__));
 
 if (!$app->configurationIsCached()) {
     $app->configure('app');
+    $app->configure('auth');
+    $app->configure('broadcasting');
+    $app->configure('cache');
     $app->configure('crufd_wizard');
+    $app->configure('database');
+    $app->configure('filesystems');
+    $app->configure('logging');
+    $app->configure('queue');
+    $app->configure('services');
+    $app->configure('session');
+    $app->configure('view');
+//    $app->configure('mail');
 }
 
 /**
@@ -80,8 +91,10 @@ if (!$app->configurationIsCached()) {
 */
 
 // $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
+/**
+ * @see \App\Application::registerAuthBindings for App\Providers\AuthServiceProvider::class
+ * @see \App\Application::registerEventBindings for App\Providers\EventServiceProvider::class
+ */
 
 /**
 |--------------------------------------------------------------------------

@@ -3,36 +3,36 @@
 namespace App\Providers;
 
 use App\Models\User;
+use MacropaySolutions\Kernel\Auth\AuthManager;
+use MacropaySolutions\Kernel\Container\Container;
+use MacropaySolutions\Kernel\Contracts\Support\DeferrableProvider;
 use MacropaySolutions\Kernel\Http\Request;
 use MacropaySolutions\Kernel\Support\ServiceProvider;
 
-class AuthServiceProvider extends ServiceProvider
+class AuthServiceProvider extends ServiceProvider implements DeferrableProvider
+
 {
     /**
      * Register any application services.
      */
     public function register(): void
     {
-        //
+        // instances/singletons run their resolving events only once
+        $this->app->afterResolving('auth', [$this, 'configureAuthGuard']);
     }
 
     /**
-     * Boot the authentication services for the application.
+     * Configure the API guard for the application.
      */
-    public function boot(): void
+    public function configureAuthGuard(AuthManager $auth, Container $app): void
     {
-        // Here you may define how you wish users to be authenticated for your framework
-        // application. The callback which receives the incoming request instance
-        // should return either a User instance or null. You're free to obtain
-        // the User instance via an API token or any other method necessary.
+        $auth->viaRequest('api', static function (Request $request): ?User {
+            // $apiToken = $request->input('api_token');
+            //
+            // return (\is_string($apiToken) && $apiToken !== '') ?
+            //     User::query()->where('api_token', \hash('sha256', $apiToken))->first() :
+            //     null;
 
-        $this->app->make('auth')->viaRequest('api', function (Request $request): ?User {
-//            $apiToken = $request->input('api_token');
-//
-//            return (\is_string($apiToken) && $apiToken !== '') ?
-//                User::query()->where('api_token', \hash('sha256', $apiToken))->first() :
-//                null;
-//            you need to implement this according to your needs.
             return null;
         });
     }

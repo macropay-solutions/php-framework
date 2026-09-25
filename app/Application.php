@@ -6,6 +6,7 @@ use FastRoute\Dispatcher;
 use MacropaySolutions\CrufdWizard\Providers\CrufdProvider;
 use MacropaySolutions\Framework\Bootstrap\LoadEnvironmentVariables;
 use MacropaySolutions\Framework\Console\ConsoleServiceProvider;
+use MacropaySolutions\Kernel\Events\EventServiceProvider;
 use MacropaySolutions\Kernel\Http\JsonResponse;
 use MacropaySolutions\Kernel\Mail\MailServiceProvider;
 use Psr\Log\LoggerInterface;
@@ -52,7 +53,7 @@ class Application extends \MacropaySolutions\Framework\Application
      */
     protected array $bindings = [
         'config' => [
-            'concrete' => [self::class, 'getConfig'],
+            'concrete' => [\App\Factories\ContainerBindingsFactory::class, 'createConfigRepository'],
             'shared' => true
         ],
         'composer' => [
@@ -111,17 +112,17 @@ class Application extends \MacropaySolutions\Framework\Application
      * @var array
      */
     protected array $availableBindings = [
-//        // --- AUTH ---
-//        'auth' => 'registerAuthBindings',
-//        'auth.driver' => 'registerAuthBindings',
-//        \MacropaySolutions\Kernel\Auth\AuthManager::class => 'registerAuthBindings',
-//        \MacropaySolutions\Kernel\Contracts\Auth\Guard::class => 'registerAuthBindings',
-//        \MacropaySolutions\Kernel\Contracts\Auth\Access\Gate::class => 'registerGateAuthBindings',
+        // --- AUTH ---
+        'auth' => 'registerAuthBindings',
+        'auth.driver' => 'registerAuthBindings',
+        \MacropaySolutions\Kernel\Auth\AuthManager::class => 'registerAuthBindings',
+        \MacropaySolutions\Kernel\Contracts\Auth\Guard::class => 'registerAuthBindings',
+        \MacropaySolutions\Kernel\Contracts\Auth\Access\Gate::class => 'registerGateAuthBindings',
 
-//        // --- BROADCASTING ---
-//        \MacropaySolutions\Kernel\Contracts\Broadcasting\Broadcaster::class => 'registerBroadcastingBindings',
-//        \MacropaySolutions\Kernel\Contracts\Broadcasting\Factory::class => 'registerBroadcastingBindings',
-//        \MacropaySolutions\Kernel\Broadcasting\BroadcastManager::class => 'registerBroadcastingBindings',
+        // --- BROADCASTING ---
+        \MacropaySolutions\Kernel\Contracts\Broadcasting\Broadcaster::class => 'registerBroadcastingBindings',
+        \MacropaySolutions\Kernel\Contracts\Broadcasting\Factory::class => 'registerBroadcastingBindings',
+        \MacropaySolutions\Kernel\Broadcasting\BroadcastManager::class => 'registerBroadcastingBindings',
 
         \MacropaySolutions\Kernel\Contracts\Bus\Dispatcher::class => 'registerBusBindings',
         \MacropaySolutions\Kernel\Contracts\Bus\QueueingDispatcher::class => 'registerBusBindings',
@@ -141,16 +142,16 @@ class Application extends \MacropaySolutions\Framework\Application
         \MacropaySolutions\Kernel\Contracts\Filesystem\Filesystem::class => 'registerFilesystemBindings',
         \MacropaySolutions\Kernel\Contracts\Filesystem\Factory::class => 'registerFilesystemBindings',
 
-//        // --- ENCRYPTION ---
-//        'encrypter' => 'registerEncrypterBindings',
-//        \MacropaySolutions\Kernel\Contracts\Encryption\Encrypter::class => 'registerEncrypterBindings',
+        // --- ENCRYPTION ---
+        'encrypter' => 'registerEncrypterBindings',
+        \MacropaySolutions\Kernel\Contracts\Encryption\Encrypter::class => 'registerEncrypterBindings',
 
         'events' => 'registerEventBindings',
         \MacropaySolutions\Kernel\Contracts\Events\Dispatcher::class => 'registerEventBindings',
 
-//        // --- HASH ---
-//        'hash' => 'registerHashBindings',
-//        \MacropaySolutions\Kernel\Contracts\Hashing\Hasher::class => 'registerHashBindings',
+        // --- HASH ---
+        'hash' => 'registerHashBindings',
+        \MacropaySolutions\Kernel\Contracts\Hashing\Hasher::class => 'registerHashBindings',
 
         'queue' => 'registerQueueBindings',
         'queue.connection' => 'registerQueueBindings',
@@ -164,31 +165,31 @@ class Application extends \MacropaySolutions\Framework\Application
         'validator' => 'registerValidatorBindings',
         \MacropaySolutions\Kernel\Contracts\Validation\Factory::class => 'registerValidatorBindings',
 
-//        // --- VIEW ---
-//        'view' => 'registerViewBindings',
-//        \MacropaySolutions\Kernel\Contracts\View\Factory::class => 'registerViewBindings',
-//        'view.finder' => 'registerViewBindings',
-//        'template.compiler' => 'registerViewBindings',
-//        'view.engine.resolver' => 'registerViewBindings',
-//        \MacropaySolutions\Kernel\View\Engines\EngineResolver::class => 'registerViewBindings',
+        // --- VIEW ---
+        'view' => 'registerViewBindings',
+        \MacropaySolutions\Kernel\Contracts\View\Factory::class => 'registerViewBindings',
+        'view.finder' => 'registerViewBindings',
+        'template.compiler' => 'registerViewBindings',
+        'view.engine.resolver' => 'registerViewBindings',
+        \MacropaySolutions\Kernel\View\Engines\EngineResolver::class => 'registerViewBindings',
 
-//        // --- SESSION & COOKIE ---
-//        'session' => 'registerSessionBindings',
-//        'session.store' => 'registerSessionBindings',
-//        \MacropaySolutions\Kernel\Session\Middleware\StartSession::class => 'registerSessionBindings',
-//        'cookie' => 'registerCookieBindings',
+        // --- SESSION & COOKIE ---
+        'session' => 'registerSessionBindings',
+        'session.store' => 'registerSessionBindings',
+        \MacropaySolutions\Kernel\Session\Middleware\StartSession::class => 'registerSessionBindings',
+        'cookie' => 'registerCookieBindings',
 
 //        // --- MAIL ---
 //        'mailer' => 'registerMailBindings',
 //        'mail.manager' => 'registerMailBindings',
 //        \MacropaySolutions\Kernel\Mail\Markdown::class => 'registerMailBindings',
 
-//        // --- NOTIFICATIONS ---
-//        \MacropaySolutions\Kernel\Contracts\Notifications\Dispatcher::class => 'registerNotificationBindings',
-//        \MacropaySolutions\Kernel\Contracts\Notifications\Factory::class => 'registerNotificationBindings',
-//        \MacropaySolutions\Kernel\Notifications\ChannelManager::class => 'registerNotificationBindings',
+        // --- NOTIFICATIONS ---
+        \MacropaySolutions\Kernel\Contracts\Notifications\Dispatcher::class => 'registerNotificationBindings',
+        \MacropaySolutions\Kernel\Contracts\Notifications\Factory::class => 'registerNotificationBindings',
+        \MacropaySolutions\Kernel\Notifications\ChannelManager::class => 'registerNotificationBindings',
     ];
-    
+
     protected array $abstractAliases = [
         'app' => [
             \App\Application::class,
@@ -197,16 +198,13 @@ class Application extends \MacropaySolutions\Framework\Application
             \MacropaySolutions\Kernel\Container\Container::class,
             \MacropaySolutions\Kernel\Contracts\Container\Container::class,
         ],
-
-//        // --- AUTH ---
-//        'auth' => [
-//            \MacropaySolutions\Kernel\Contracts\Auth\Factory::class,
-//            \MacropaySolutions\Kernel\Auth\AuthManager::class,
-//        ],
-//        'auth.driver' => [
-//            \MacropaySolutions\Kernel\Contracts\Auth\Guard::class,
-//        ],
-
+        'auth' => [
+            \MacropaySolutions\Kernel\Contracts\Auth\Factory::class,
+            \MacropaySolutions\Kernel\Auth\AuthManager::class,
+        ],
+        'auth.driver' => [
+            \MacropaySolutions\Kernel\Contracts\Auth\Guard::class,
+        ],
         'cache' => [
             \MacropaySolutions\Kernel\Contracts\Cache\Factory::class,
             \MacropaySolutions\Kernel\Cache\CacheManager::class,
@@ -222,13 +220,10 @@ class Application extends \MacropaySolutions\Framework\Application
             \MacropaySolutions\Kernel\Database\ConnectionResolverInterface::class,
             \MacropaySolutions\Kernel\Database\DatabaseManager::class,
         ],
-
-//        // --- ENCRYPTION ---
-//        'encrypter' => [
-//            \MacropaySolutions\Kernel\Contracts\Encryption\Encrypter::class,
-//            \MacropaySolutions\Kernel\Encryption\Encrypter::class,
-//        ],
-
+        'encrypter' => [
+            \MacropaySolutions\Kernel\Contracts\Encryption\Encrypter::class,
+            \MacropaySolutions\Kernel\Encryption\Encrypter::class,
+        ],
         'events' => [
             \MacropaySolutions\Kernel\Contracts\Events\Dispatcher::class,
             \MacropaySolutions\Kernel\Events\Dispatcher::class,
@@ -243,13 +238,11 @@ class Application extends \MacropaySolutions\Framework\Application
         'filesystem.cloud' => [
             \MacropaySolutions\Kernel\Contracts\Filesystem\Cloud::class,
         ],
-
-//        // --- HASH ---
-//       'hash' => [
-//            \MacropaySolutions\Kernel\Contracts\Hashing\Hasher::class,
-//            \MacropaySolutions\Kernel\Hashing\HashManager::class,
-//        ],
-
+        'hash' => [
+            \MacropaySolutions\Kernel\Contracts\Hashing\Hasher::class,
+            \MacropaySolutions\Kernel\Hashing\HashManager::class,
+        ],
+        // quirk: Key is the Interface for 'log'
         \Psr\Log\LoggerInterface::class => [
             'log',
         ],
@@ -260,16 +253,15 @@ class Application extends \MacropaySolutions\Framework\Application
         'queue.connection' => [
             \MacropaySolutions\Kernel\Contracts\Queue\Queue::class,
         ],
-
-//        // --- REDIS ---
-//        'redis' => [
-//            \MacropaySolutions\Kernel\Contracts\Redis\Factory::class,
-//            \MacropaySolutions\Kernel\Redis\RedisManager::class,
-//        ],
-//        'redis.connection' => [
-//            \MacropaySolutions\Kernel\Redis\Connections\Connection::class,
-//            \MacropaySolutions\Kernel\Contracts\Redis\Connection::class,
-//        ],
+        'redis' => [
+            \MacropaySolutions\Kernel\Contracts\Redis\Factory::class,
+            \MacropaySolutions\Kernel\Redis\RedisManager::class,
+        ],
+        'redis.connection' => [
+            \MacropaySolutions\Kernel\Redis\Connections\Connection::class,
+            \MacropaySolutions\Kernel\Contracts\Redis\Connection::class,
+        ],
+        // quirk: Key is the Request class
         \MacropaySolutions\Kernel\Http\Request::class => [
             'request',
             \App\Request::class,
@@ -290,32 +282,28 @@ class Application extends \MacropaySolutions\Framework\Application
             \MacropaySolutions\Kernel\Contracts\Validation\Factory::class,
             \MacropaySolutions\Kernel\Validation\Factory::class,
         ],
-
-//        // --- VIEW ---
-//        'view' => [
-//            \MacropaySolutions\Kernel\Contracts\View\Factory::class,
-//            \MacropaySolutions\Kernel\View\Factory::class,
-//        ],
-//        'template.compiler' => [
-//            \MacropaySolutions\Kernel\View\Compilers\TemplateCompiler::class,
-//        ],
-//        'view.engine.resolver' => [
-//            \MacropaySolutions\Kernel\View\Engines\EngineResolver::class,
-//        ],
-
-//        // --- SESSION & COOKIE ---
-//        'session' => [
-//        \MacropaySolutions\Kernel\Session\SessionManager::class,
-//        ],
-//        'session.store' => [
-//        \MacropaySolutions\Kernel\Session\Store::class,
-//        \MacropaySolutions\Kernel\Contracts\Session\Session::class,
-//        ],
-//        'cookie' => [
-//            \MacropaySolutions\Kernel\Cookie\CookieJar::class,
-//            \MacropaySolutions\Kernel\Contracts\Cookie\Factory::class,
-//            \MacropaySolutions\Kernel\Contracts\Cookie\QueueingFactory::class,
-//        ],
+        'view' => [
+            \MacropaySolutions\Kernel\Contracts\View\Factory::class,
+            \MacropaySolutions\Kernel\View\Factory::class,
+        ],
+        'template.compiler' => [
+            \MacropaySolutions\Kernel\View\Compilers\TemplateCompiler::class,
+        ],
+        'view.engine.resolver' => [
+            \MacropaySolutions\Kernel\View\Engines\EngineResolver::class,
+        ],
+        'session' => [
+            \MacropaySolutions\Kernel\Session\SessionManager::class,
+        ],
+        'session.store' => [
+            \MacropaySolutions\Kernel\Session\Store::class,
+            \MacropaySolutions\Kernel\Contracts\Session\Session::class,
+        ],
+        'cookie' => [
+            \MacropaySolutions\Kernel\Cookie\CookieJar::class,
+            \MacropaySolutions\Kernel\Contracts\Cookie\Factory::class,
+            \MacropaySolutions\Kernel\Contracts\Cookie\QueueingFactory::class,
+        ],
 
 //        // --- MAIL ---
 //        'mail.manager' => [
@@ -331,34 +319,26 @@ class Application extends \MacropaySolutions\Framework\Application
         'files' => [
             \MacropaySolutions\Kernel\Filesystem\Filesystem::class,
         ],
-
-//        // --- BROADCASTING ---
-//        \MacropaySolutions\Kernel\Broadcasting\BroadcastManager::class => [
-//            \MacropaySolutions\Kernel\Contracts\Broadcasting\Factory::class,
-//        ],
+        \MacropaySolutions\Kernel\Broadcasting\BroadcastManager::class => [
+            \MacropaySolutions\Kernel\Contracts\Broadcasting\Factory::class,
+        ],
         \MacropaySolutions\Kernel\Bus\Dispatcher::class => [
             \MacropaySolutions\Kernel\Contracts\Bus\Dispatcher::class,
             \MacropaySolutions\Kernel\Contracts\Bus\QueueingDispatcher::class,
         ],
-
-
-//        // --- NOTIFICATIONS ---
-//        \MacropaySolutions\Kernel\Notifications\ChannelManager::class => [
-//            \MacropaySolutions\Kernel\Contracts\Notifications\Dispatcher::class,
-//            \MacropaySolutions\Kernel\Contracts\Notifications\Factory::class,
-//        ],
+        \MacropaySolutions\Kernel\Notifications\ChannelManager::class => [
+            \MacropaySolutions\Kernel\Contracts\Notifications\Dispatcher::class,
+            \MacropaySolutions\Kernel\Contracts\Notifications\Factory::class,
+        ],
     ];
 
     protected array $aliases = [
         \App\Application::class => 'app',
         \MacropaySolutions\Framework\Application::class => 'app',
         \MacropaySolutions\Kernel\Contracts\Foundation\Application::class => 'app',
-
-//        // --- AUTH ---
-//        \MacropaySolutions\Kernel\Contracts\Auth\Factory::class => 'auth',
-//        \MacropaySolutions\Kernel\Contracts\Auth\Guard::class => 'auth.driver',
-//        \MacropaySolutions\Kernel\Auth\AuthManager::class => 'auth',
-
+        \MacropaySolutions\Kernel\Contracts\Auth\Factory::class => 'auth',
+        \MacropaySolutions\Kernel\Contracts\Auth\Guard::class => 'auth.driver',
+        \MacropaySolutions\Kernel\Auth\AuthManager::class => 'auth',
         \MacropaySolutions\Kernel\Contracts\Cache\Factory::class => 'cache',
         \MacropaySolutions\Kernel\Contracts\Cache\Repository::class => 'cache.store',
         \MacropaySolutions\Kernel\Contracts\Config\Repository::class => 'config',
@@ -367,32 +347,22 @@ class Application extends \MacropaySolutions\Framework\Application
         \MacropaySolutions\Kernel\Contracts\Container\Container::class => 'app',
         \MacropaySolutions\Kernel\Database\ConnectionResolverInterface::class => 'db',
         \MacropaySolutions\Kernel\Database\DatabaseManager::class => 'db',
-
-//        // --- ENCRYPTION ---
-//        \MacropaySolutions\Kernel\Contracts\Encryption\Encrypter::class => 'encrypter',
-//        \MacropaySolutions\Kernel\Encryption\Encrypter::class => 'encrypter',
-
+        \MacropaySolutions\Kernel\Contracts\Encryption\Encrypter::class => 'encrypter',
+        \MacropaySolutions\Kernel\Encryption\Encrypter::class => 'encrypter',
         \MacropaySolutions\Kernel\Contracts\Events\Dispatcher::class => 'events',
         \MacropaySolutions\Kernel\Contracts\Filesystem\Factory::class => 'filesystem',
         \MacropaySolutions\Kernel\Contracts\Filesystem\Filesystem::class => 'filesystem.disk',
         \MacropaySolutions\Kernel\Contracts\Filesystem\Cloud::class => 'filesystem.cloud',
-
-//        // --- HASH ---
-//        \MacropaySolutions\Kernel\Contracts\Hashing\Hasher::class => 'hash',
-//        \MacropaySolutions\Kernel\Hashing\HashManager::class => 'hash',
-
+        \MacropaySolutions\Kernel\Contracts\Hashing\Hasher::class => 'hash',
+        \MacropaySolutions\Kernel\Hashing\HashManager::class => 'hash',
         'log' => \Psr\Log\LoggerInterface::class,
-
         \MacropaySolutions\Kernel\Contracts\Queue\Factory::class => 'queue',
         \MacropaySolutions\Kernel\Contracts\Queue\Queue::class => 'queue.connection',
         \MacropaySolutions\Kernel\Queue\QueueManager::class => 'queue',
-
-//        // --- REDIS ---
-//        \MacropaySolutions\Kernel\Redis\RedisManager::class => 'redis',
-//        \MacropaySolutions\Kernel\Contracts\Redis\Factory::class => 'redis',
-//        \MacropaySolutions\Kernel\Redis\Connections\Connection::class => 'redis.connection',
-//        \MacropaySolutions\Kernel\Contracts\Redis\Connection::class => 'redis.connection',
-
+        \MacropaySolutions\Kernel\Redis\RedisManager::class => 'redis',
+        \MacropaySolutions\Kernel\Contracts\Redis\Factory::class => 'redis',
+        \MacropaySolutions\Kernel\Redis\Connections\Connection::class => 'redis.connection',
+        \MacropaySolutions\Kernel\Contracts\Redis\Connection::class => 'redis.connection',
         'request' => \MacropaySolutions\Kernel\Http\Request::class,
         \App\Request::class => \MacropaySolutions\Kernel\Http\Request::class,
         \MacropaySolutions\Framework\Http\Request::class => \MacropaySolutions\Kernel\Http\Request::class,
@@ -401,15 +371,13 @@ class Application extends \MacropaySolutions\Framework\Application
         \MacropaySolutions\Kernel\Contracts\Translation\Translator::class => 'translator',
         \MacropaySolutions\Framework\Routing\UrlGenerator::class => 'url',
         \MacropaySolutions\Kernel\Contracts\Validation\Factory::class => 'validator',
-
-//        // --- VIEW ---
-//        \MacropaySolutions\Kernel\Contracts\View\Factory::class => 'view',
-//        \MacropaySolutions\Kernel\Session\SessionManager::class => 'session',
-//        \MacropaySolutions\Kernel\Session\Store::class => 'session.store',
-//        \MacropaySolutions\Kernel\Contracts\Session\Session::class => 'session.store',
-//        \MacropaySolutions\Kernel\Cookie\CookieJar::class => 'cookie',
-//        \MacropaySolutions\Kernel\Contracts\Cookie\Factory::class => 'cookie',
-//        \MacropaySolutions\Kernel\Contracts\Cookie\QueueingFactory::class => 'cookie',
+        \MacropaySolutions\Kernel\Contracts\View\Factory::class => 'view',
+        \MacropaySolutions\Kernel\Session\SessionManager::class => 'session',
+        \MacropaySolutions\Kernel\Session\Store::class => 'session.store',
+        \MacropaySolutions\Kernel\Contracts\Session\Session::class => 'session.store',
+        \MacropaySolutions\Kernel\Cookie\CookieJar::class => 'cookie',
+        \MacropaySolutions\Kernel\Contracts\Cookie\Factory::class => 'cookie',
+        \MacropaySolutions\Kernel\Contracts\Cookie\QueueingFactory::class => 'cookie',
 
 //        // --- MAIL ---
 //        \MacropaySolutions\Kernel\Mail\MailManager::class => 'mail.manager',
@@ -424,27 +392,19 @@ class Application extends \MacropaySolutions\Framework\Application
         \MacropaySolutions\Kernel\Filesystem\Filesystem::class => 'files',
         \MacropaySolutions\Kernel\Translation\Translator::class => 'translator',
         \MacropaySolutions\Kernel\Validation\Factory::class => 'validator',
-
-//        // --- VIEW ---
-//        \MacropaySolutions\Kernel\View\Factory::class => 'view',
-//        \MacropaySolutions\Kernel\View\Compilers\TemplateCompiler::class => 'template.compiler',
-//        \MacropaySolutions\Kernel\View\Engines\EngineResolver::class => 'view.engine.resolver',
-
-//        // --- BROADCASTING ---
-//        \MacropaySolutions\Kernel\Contracts\Broadcasting\Factory::class =>
-//            \MacropaySolutions\Kernel\Broadcasting\BroadcastManager::class,
-
+        \MacropaySolutions\Kernel\View\Factory::class => 'view',
+        \MacropaySolutions\Kernel\View\Compilers\TemplateCompiler::class => 'template.compiler',
+        \MacropaySolutions\Kernel\View\Engines\EngineResolver::class => 'view.engine.resolver',
+        \MacropaySolutions\Kernel\Contracts\Broadcasting\Factory::class =>
+            \MacropaySolutions\Kernel\Broadcasting\BroadcastManager::class,
         \MacropaySolutions\Kernel\Contracts\Bus\Dispatcher::class => \MacropaySolutions\Kernel\Bus\Dispatcher::class,
         \MacropaySolutions\Kernel\Contracts\Bus\QueueingDispatcher::class =>
             \MacropaySolutions\Kernel\Bus\Dispatcher::class,
-
-
-//        // --- NOTIFICATIONS ---
-//        \MacropaySolutions\Kernel\Contracts\Notifications\Dispatcher::class =>
-//            \MacropaySolutions\Kernel\Notifications\ChannelManager::class,
-//        \MacropaySolutions\Kernel\Contracts\Notifications\Factory::class =>
-//            \MacropaySolutions\Kernel\Notifications\ChannelManager::class,
-        ];
+        \MacropaySolutions\Kernel\Contracts\Notifications\Dispatcher::class =>
+            \MacropaySolutions\Kernel\Notifications\ChannelManager::class,
+        \MacropaySolutions\Kernel\Contracts\Notifications\Factory::class =>
+            \MacropaySolutions\Kernel\Notifications\ChannelManager::class,
+    ];
 
     protected ConsoleServiceProvider $consoleProvider;
 
@@ -473,6 +433,18 @@ class Application extends \MacropaySolutions\Framework\Application
         \date_default_timezone_set(\env('APP_TIMEZONE', 'UTC'));
 
         parent::__construct($this->basePath);
+    }
+
+    protected function registerAuthBindings()
+    {
+        parent::registerAuthBindings();
+        $this->register(\App\Providers\AuthServiceProvider::class);
+    }
+
+    protected function registerEventBindings()
+    {
+        $this->register(EventServiceProvider::class);
+        $this->register(\App\Providers\EventServiceProvider::class);
     }
 
     /**

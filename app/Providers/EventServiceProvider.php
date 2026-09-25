@@ -30,6 +30,6 @@ class EventServiceProvider extends ServiceProvider
      */
     public function shouldDiscoverEventsAsObservers(): bool
     {
-        return false;
+        return true;
     }
 }
