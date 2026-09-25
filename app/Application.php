@@ -2,11 +2,11 @@
 
 namespace App;
 
-use Composer\InstalledVersions;
 use FastRoute\Dispatcher;
 use MacropaySolutions\CrufdWizard\Providers\CrufdProvider;
 use MacropaySolutions\Framework\Bootstrap\LoadEnvironmentVariables;
 use MacropaySolutions\Framework\Console\ConsoleServiceProvider;
+use MacropaySolutions\Kernel\Cache\CacheServiceProvider;
 use MacropaySolutions\Kernel\Database\MigrationServiceProvider;
 use MacropaySolutions\Kernel\Http\JsonResponse;
 use MacropaySolutions\Kernel\Mail\MailServiceProvider;
@@ -374,18 +374,14 @@ class Application extends \MacropaySolutions\Framework\Application
 //            \MacropaySolutions\Kernel\Notifications\ChannelManager::class,
         ];
 
+    protected ConsoleServiceProvider $consoleProvider;
+
     /**
      * @inheritdoc
      */
-    public function prepareForConsoleCommand($aliases = true)
+    public function prepareForConsoleCommand()
     {
-        $this->make('cache');
-//        $this->make('queue');
-
-        $this->configure('database');
-
-        $this->register(MigrationServiceProvider::class);
-        $this->register(new class ($this) extends ConsoleServiceProvider {
+        $this->consoleProvider = new class ($this) extends ConsoleServiceProvider {
             protected $commands = [
                 'AutowiringMethodsCache' => 'command.autowiring.cache',
                 'AutowiringMethodsClear' => 'command.autowiring.clear',
@@ -419,14 +415,72 @@ class Application extends \MacropaySolutions\Framework\Application
                 'ViewCache' => 'command.view.cache',
                 'ViewClear' => 'command.view.clear',
             ];
-        });
+
+            protected $devCommands = [
+                'About' => 'command.about',
+                'Wipe' => 'command.wipe',
+                'SchemaDump' => 'command.schema.dump',
+                'CacheTable' => 'command.cache.table',
+                'MigrateMake' => 'command.migrate.make',
+                'MigrateFresh' => 'command.migrate.fresh',
+                'MigrateRefresh' => 'command.migrate.refresh',
+                'MigrateReset' => 'command.migrate.reset',
+//                'QueueFailedTable' => 'command.queue.failed-table',
+//                'QueueBatchesTable' => 'command.queue.batches-table',
+//                'QueueTable' => 'command.queue.table',
+                'Seed' => 'command.seed',
+                'SeederMake' => 'command.seeder.make',
+            ];
+        };
+
+        if ($this->commandsAreCached()) {
+            $this->registerLazyAvailableBindings();
+
+            return;
+        }
+
+        $this->make('cache');
+        // $this->make('queue');
+
+        $this->configure('database');
+
+        $this->register(MigrationServiceProvider::class);
+
+        $this->register($this->consoleProvider);
 
         if (static::$isDevEnv) {
-            $this->register(\MacropaySolutions\KernelDev\ServiceProvider::class);
-            $this->register(
-                \MacropaySolutions\CrufdWizardGenerator\CrufdWizardGeneratorServiceProvider::class
-            );
+            $this->registerDevConsoleProviders();
         }
+    }
+
+    protected function registerLazyAvailableBindings(): void
+    {
+        foreach ((new CacheServiceProvider($this))->provides() as $key) {
+            $this->availableBindings[$key] = 'registerCacheBindings';
+        }
+
+//        foreach ((new QueueServiceProvider($this))->provides() as $key) {
+//            $this->availableBindings[$key] = 'registerQueueBindings';
+//        }
+
+        foreach ((new MigrationServiceProvider($this))->provides() as $key) {
+            $this->availableBindings[$key] = 'registerMigrationServiceProvider';
+        }
+
+        foreach ($this->consoleProvider->provides() as $key) {
+            $this->availableBindings[$key] = 'registerConsoleServiceProvider' . \hash('sha256', $key);
+        }
+
+        if (static::$isDevEnv) {
+            $this->configure('database');
+            $this->registerDevConsoleProviders();
+        }
+    }
+
+    protected function registerDevConsoleProviders(): void
+    {
+        parent::registerDevConsoleProviders();
+        $this->register(\MacropaySolutions\CrufdWizardGenerator\CrufdWizardGeneratorServiceProvider::class);
     }
 
     public function __construct(?string $basePath = null)
