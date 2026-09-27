@@ -90,10 +90,10 @@ if (!$app->configurationIsCached()) {
 | The register call bellow is still needed if you have logic in boot method
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
+// $app->register(\App\Providers\AppServiceProvider::class);
 /**
- * @see \App\Application::registerAuthBindings for App\Providers\AuthServiceProvider::class
- * @see \App\Application::registerEventBindings for App\Providers\EventServiceProvider::class
+ * @see \App\Application::registerAuthBindings for \App\Providers\AuthServiceProvider::class
+ * @see \App\Application::registerEventBindings for \App\Providers\EventServiceProvider::class
  */
 
 /**
@@ -113,5 +113,5 @@ if (!$app->routesAreCached()) {
 }
 
 return $app->boot([
-    // App\Providers\AppServiceProvider::class
+    // \App\Providers\AppServiceProvider::class
 ]);
