@@ -70,7 +70,6 @@ if (!$app->configurationIsCached()) {
 * @see \App\Application::$middleware
 * @see \App\Application::$foundRouteMiddleware
 * @see \App\Application::$routeMiddleware
-* @see \App\Application::registerExplicitBindingsMap if declaring the middleware in property is not possible
 */
 
 /**
