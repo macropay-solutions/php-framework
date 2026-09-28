@@ -83,7 +83,6 @@ class ConfigCacheCommand extends Command
         $app->useStoragePath($this->app->storagePath());
 
         $app->make(ConsoleKernelContract::class)->bootstrap();
-        $app->boot();
 
         foreach ($app->getAvailableBindings() as $binding => $resolver) {
             try {

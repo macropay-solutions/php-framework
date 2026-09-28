@@ -111,6 +111,6 @@ if (!$app->routesAreCached()) {
     $app->router->registerRoutes();
 }
 
-return $app->boot([
-    // \App\Providers\AppServiceProvider::class
-]);
+return $app->boot(
+    // \App\Providers\AppServiceProvider::class,
+);
