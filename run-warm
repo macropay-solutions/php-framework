@@ -70,12 +70,27 @@ while (!$shouldQuit) {
     /**
      * 3. SOCKET SANITIZATION
      */
+    // Disconnect ALL active DB connections (mysql, pgsql, read/write replicas, tenants)
     if ($app->resolved('db')) {
-        $app->make('db')->connection()->disconnect();
+        $dbManager = $app->make('db');
+
+        foreach (($dbManager->getConnections() ?? []) as $name => $connection) {
+            /** @var \MacropaySolutions\Kernel\Database\Connection $connection */
+            $dbManager->purge($name);
+            \fwrite(STDERR, "Disconnected db connection {$name};\n");
+        }
     }
 
+    // Disconnect ALL active Redis connections (default, cache, publisher, etc.)
     if ($app->resolved('redis')) {
-        $app->make('redis')->connection()->disconnect();
+        $redisManager = $app->make('redis');
+
+        foreach (($redisManager->connections() ?? []) as $name => $connection) {
+            /** @var \MacropaySolutions\Kernel\Redis\Connections\Connection $connection */
+            $connection->disconnect();
+            $redisManager->purge($name);
+            \fwrite(STDERR, "Disconnected redis connection {$name};\n");
+        }
     }
 
     /**
