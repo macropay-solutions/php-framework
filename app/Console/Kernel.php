@@ -2,10 +2,6 @@
 
 namespace App\Console;
 
-use App\Console\Commands\ConfigCacheCommand;
-use App\Console\Commands\ConfigClearCommand;
-use App\Console\Commands\RouteCacheCommand;
-use App\Console\Commands\RouteClearCommand;
 use MacropaySolutions\Framework\Application;
 use MacropaySolutions\Framework\Console\Kernel as ConsoleKernel;
 use MacropaySolutions\Kernel\Console\Scheduling\Schedule;
@@ -19,10 +15,6 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        ConfigCacheCommand::class,
-        ConfigClearCommand::class,
-        RouteCacheCommand::class,
-        RouteClearCommand::class,
     ];
 
     /**

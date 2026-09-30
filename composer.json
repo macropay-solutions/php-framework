@@ -8,8 +8,7 @@
         "php": "^8.2",
         "macropay-solutions/php-crufd-wizard": "^1.0.0",
         "macropay-solutions/php-crufd-wizard-decorator": "^1.0.0",
-        "macropay-solutions/php-kernel": "^1.0.0",
-        "nikic/fast-route": "^1.3"
+        "macropay-solutions/php-kernel": "^1.0.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

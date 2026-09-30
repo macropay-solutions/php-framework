@@ -4,7 +4,6 @@ namespace App;
 
 use FastRoute\Dispatcher;
 use MacropaySolutions\CrufdWizard\Providers\CrufdProvider;
-use MacropaySolutions\Framework\Bootstrap\LoadEnvironmentVariables;
 use MacropaySolutions\Framework\Console\ConsoleServiceProvider;
 use MacropaySolutions\Kernel\Events\EventServiceProvider;
 use MacropaySolutions\Kernel\Http\JsonResponse;
@@ -53,7 +52,7 @@ class Application extends \MacropaySolutions\Framework\Application
      */
     protected array $bindings = [
         'config' => [
-            'concrete' => [\App\Factories\ContainerBindingsFactory::class, 'createConfigRepository'],
+            'concrete' => [self::class, 'getConfig'],
             'shared' => true
         ],
         'composer' => [
@@ -414,27 +413,6 @@ class Application extends \MacropaySolutions\Framework\Application
         $this->register(\MacropaySolutions\CrufdWizardGenerator\CrufdWizardGeneratorServiceProvider::class);
     }
 
-    public function __construct(?string $basePath = null)
-    {
-        $this->basePath = $basePath ?? (string)($this->runningInConsole() ? \getcwd() : \realpath(\getcwd() . '/../'));
-
-        static::setBootstrapCacheFiles($this->bootstrapPath('cache'));
-
-        if ($this->configurationIsCached()) {
-            parent::__construct($this->basePath);
-
-            \date_default_timezone_set($this->make('config')->get('app.timezone', 'UTC'));
-
-            return;
-        }
-
-        (new LoadEnvironmentVariables($basePath))->bootstrap();
-
-        \date_default_timezone_set(\env('APP_TIMEZONE', 'UTC'));
-
-        parent::__construct($this->basePath);
-    }
-
     protected function registerAuthBindings()
     {
         parent::registerAuthBindings();
@@ -445,14 +423,6 @@ class Application extends \MacropaySolutions\Framework\Application
     {
         $this->register(EventServiceProvider::class);
         $this->register(\App\Providers\EventServiceProvider::class);
-    }
-
-    /**
-     * Get the path to the fast routes cache file.
-     */
-    public function getCachedFastRoutesPath(): string
-    {
-        return $this->bootstrapPath('cache' . DIRECTORY_SEPARATOR . 'fast_routes.php');
     }
 
     /**
