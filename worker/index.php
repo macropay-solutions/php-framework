@@ -6,7 +6,6 @@
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
-$kernel = \MacropaySolutions\Kernel\Container\Container::getInstance()
-    ->make(\MacropaySolutions\Kernel\Contracts\Console\Kernel::class);
-
-exit($kernel->handle(new ArgvInput(), new ConsoleOutput()));
+exit(\MacropaySolutions\Kernel\Container\Container::getInstance()
+    ->make(\MacropaySolutions\Kernel\Contracts\Console\Kernel::class)
+    ->handle(new ArgvInput(), new ConsoleOutput()));

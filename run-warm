@@ -1,0 +1,157 @@
+#!/usr/bin/env php
+<?php
+
+if (!\extension_loaded('pcntl')) {
+    \fwrite(STDERR, "The pcntl extension is required for run-warm.\n");
+    exit(1);
+}
+
+if (!\extension_loaded('posix')) {
+    \fwrite(STDERR, "The posix extension is required for run-warm.\n");
+    exit(1);
+}
+
+// ── 0. SIGNAL HANDLING SETUP (Matching Worker.php logic) ──
+$shouldQuit = false;
+$paused = false;
+
+\pcntl_async_signals(true);
+
+\pcntl_signal(SIGQUIT, function () use (&$shouldQuit) {
+    $shouldQuit = true;
+});
+\pcntl_signal(SIGTERM, function () use (&$shouldQuit) {
+    $shouldQuit = true;
+});
+\pcntl_signal(SIGINT, function () use (&$shouldQuit) {
+    $shouldQuit = true;
+});
+\pcntl_signal(SIGUSR2, function () use (&$paused) {
+    $paused = true;
+});
+\pcntl_signal(SIGCONT, function () use (&$paused) {
+    $paused = false;
+});
+
+// ── GUARDRAIL: Restrict this engine to queue workers only ──
+if (!isset($_SERVER['argv'][1]) || $_SERVER['argv'][1] !== 'queue:work') {
+    \fwrite(STDERR, "Fatal: run-warm is strictly restricted to the 'queue:work' command to prevent infinite loops.\n");
+    exit(1);
+}
+
+// ── HARDCODE: Force the --once flag ──
+if (!\in_array('--once', $_SERVER['argv'], true)) {
+    $_SERVER['argv'][] = '--once';
+}
+
+
+/**
+ * 1. PARENT INITIALIZATION
+ * Executed once. Reads framework into RAM for Copy-on-Write inheritance.
+ */
+/** @var \App\Application $app */
+$app = require __DIR__ . '/bootstrap/cli.php';
+
+/**
+ * 2. THE PARENT DAEMON LOOP
+ */
+while (!$shouldQuit) {
+    // Pause worker loop if SIGUSR2 was received
+    if ($paused) {
+        \sleep(1);
+
+        continue;
+    }
+
+    if ($shouldQuit) {
+        break;
+    }
+
+    /**
+     * 3. SOCKET SANITIZATION
+     */
+    if ($app->resolved('db')) {
+        $app->make('db')->connection()->disconnect();
+    }
+
+    if ($app->resolved('redis')) {
+        $app->make('redis')->connection()->disconnect();
+    }
+
+    /**
+     * 4. THE FORK
+     */
+    $childPid = \pcntl_fork();
+
+    /**
+     * 5. FORK FAILURE (PARENT ONLY)
+     */
+    if ($childPid === -1) {
+        \fwrite(STDERR, "Fatal: Unable to fork queue worker process.\n");
+        exit(1);
+    }
+
+    /**
+     * 6. CHILD EXECUTION (CHILD ONLY)
+     */
+    if ($childPid === 0) {
+        // Reset signal handlers so child/Worker.php manages its own signals
+        \pcntl_signal(SIGQUIT, SIG_DFL);
+        \pcntl_signal(SIGTERM, SIG_DFL);
+        \pcntl_signal(SIGINT, SIG_DFL);
+        \pcntl_signal(SIGUSR2, SIG_DFL);
+        \pcntl_signal(SIGCONT, SIG_DFL);
+
+        require_once __DIR__ . '/worker/index.php';
+        exit(0);
+    }
+
+    /**
+     * 7. SYNCHRONOUS WAIT (PARENT ONLY)
+     * Loop pcntl_waitpid until the child process is explicitly reaped ($res === $childPid).
+     * Handles signal interruptions (EINTR) safely without inspecting partial/invalid status.
+     */
+    $status = 0;
+    $sigtermSent = false;
+
+    while (true) {
+        $res = \pcntl_waitpid($childPid, $status);
+
+        if ($res === $childPid) {
+            // Child process reaped successfully
+            break;
+        }
+
+        if ($res === -1) {
+            // Interrupted by signal (EINTR)
+            if ($shouldQuit && !$sigtermSent) {
+                \posix_kill($childPid, SIGTERM);
+                $sigtermSent = true;
+            }
+
+            // Immediately retry pcntl_waitpid to finish reaping the child
+            continue;
+        }
+    }
+
+    // Inspect child process termination state
+    if (\pcntl_wifsignaled($status)) {
+        $signal = \pcntl_wtermsig($status);
+
+        if (\in_array($signal, [SIGTERM, SIGINT, SIGQUIT], true)) {
+            $shouldQuit = true;
+        } else {
+            \fwrite(STDERR, "Worker terminated by signal {$signal};\n");
+        }
+    } elseif (\pcntl_wifexited($status)) {
+        $exitCode = \pcntl_wexitstatus($status);
+
+        if ($exitCode !== 0) {
+            \fwrite(STDERR, "Worker exited with status {$exitCode};\n");
+        }
+    }
+
+    /**
+     * 8. RESTART LOOP
+     */
+}
