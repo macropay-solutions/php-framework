@@ -17,19 +17,15 @@ $paused = false;
 
 \pcntl_async_signals(true);
 
-\pcntl_signal(SIGQUIT, function () use (&$shouldQuit) {
+\pcntl_signal(SIGQUIT, $sQ = static function () use (&$shouldQuit) {
     $shouldQuit = true;
 });
-\pcntl_signal(SIGTERM, function () use (&$shouldQuit) {
-    $shouldQuit = true;
-});
-\pcntl_signal(SIGINT, function () use (&$shouldQuit) {
-    $shouldQuit = true;
-});
-\pcntl_signal(SIGUSR2, function () use (&$paused) {
+\pcntl_signal(SIGTERM, $sQ);
+\pcntl_signal(SIGINT, $sQ);
+\pcntl_signal(SIGUSR2, static function () use (&$paused) {
     $paused = true;
 });
-\pcntl_signal(SIGCONT, function () use (&$paused) {
+\pcntl_signal(SIGCONT, static function () use (&$paused) {
     $paused = false;
 });
 
@@ -39,18 +35,38 @@ if (!isset($_SERVER['argv'][1]) || $_SERVER['argv'][1] !== 'queue:work') {
     exit(1);
 }
 
-// ── HARDCODE: Force the --once flag ──
-if (!\in_array('--once', $_SERVER['argv'], true)) {
-    $_SERVER['argv'][] = '--once';
-}
-
-
 /**
  * 1. PARENT INITIALIZATION
  * Executed once. Reads framework into RAM for Copy-on-Write inheritance.
  */
 /** @var \App\Application $app */
 $app = require __DIR__ . '/bootstrap/cli.php';
+
+/**
+ * 3. SOCKET SANITIZATION
+ */
+// Disconnect ALL active DB connections (mysql, pgsql, read/write replicas, tenants)
+if ($app->resolved('db')) {
+    $dbManager = $app->make('db');
+
+    foreach (($dbManager->getConnections() ?? []) as $name => $connection) {
+        /** @var \MacropaySolutions\Kernel\Database\Connection $connection */
+        $dbManager->purge($name);
+        \fwrite(STDERR, "Disconnected db connection {$name};\n");
+    }
+}
+
+// Disconnect ALL active Redis connections (default, cache, publisher, etc.)
+if ($app->resolved('redis')) {
+    $redisManager = $app->make('redis');
+
+    foreach (($redisManager->connections() ?? []) as $name => $connection) {
+        /** @var \MacropaySolutions\Kernel\Redis\Connections\Connection $connection */
+        $connection->disconnect();
+        $redisManager->purge($name);
+        \fwrite(STDERR, "Disconnected redis connection {$name};\n");
+    }
+}
 
 /**
  * 2. THE PARENT DAEMON LOOP
@@ -61,36 +77,6 @@ while (!$shouldQuit) {
         \sleep(1);
 
         continue;
-    }
-
-    if ($shouldQuit) {
-        break;
-    }
-
-    /**
-     * 3. SOCKET SANITIZATION
-     */
-    // Disconnect ALL active DB connections (mysql, pgsql, read/write replicas, tenants)
-    if ($app->resolved('db')) {
-        $dbManager = $app->make('db');
-
-        foreach (($dbManager->getConnections() ?? []) as $name => $connection) {
-            /** @var \MacropaySolutions\Kernel\Database\Connection $connection */
-            $dbManager->purge($name);
-            \fwrite(STDERR, "Disconnected db connection {$name};\n");
-        }
-    }
-
-    // Disconnect ALL active Redis connections (default, cache, publisher, etc.)
-    if ($app->resolved('redis')) {
-        $redisManager = $app->make('redis');
-
-        foreach (($redisManager->connections() ?? []) as $name => $connection) {
-            /** @var \MacropaySolutions\Kernel\Redis\Connections\Connection $connection */
-            $connection->disconnect();
-            $redisManager->purge($name);
-            \fwrite(STDERR, "Disconnected redis connection {$name};\n");
-        }
     }
 
     /**
@@ -110,13 +96,6 @@ while (!$shouldQuit) {
      * 6. CHILD EXECUTION (CHILD ONLY)
      */
     if ($childPid === 0) {
-        // Reset signal handlers so child/Worker.php manages its own signals
-        \pcntl_signal(SIGQUIT, SIG_DFL);
-        \pcntl_signal(SIGTERM, SIG_DFL);
-        \pcntl_signal(SIGINT, SIG_DFL);
-        \pcntl_signal(SIGUSR2, SIG_DFL);
-        \pcntl_signal(SIGCONT, SIG_DFL);
-
         require_once __DIR__ . '/worker/index.php';
         exit(0);
     }
@@ -127,43 +106,34 @@ while (!$shouldQuit) {
      * Handles signal interruptions (EINTR) safely without inspecting partial/invalid status.
      */
     $status = 0;
-    $sigtermSent = false;
 
     while (true) {
         $res = \pcntl_waitpid($childPid, $status);
 
         if ($res === $childPid) {
-            // Child process reaped successfully
             break;
         }
 
-        if ($res === -1) {
-            // Interrupted by signal (EINTR)
-            if ($shouldQuit && !$sigtermSent) {
-                \posix_kill($childPid, SIGTERM);
-                $sigtermSent = true;
-            }
-
-            // Immediately retry pcntl_waitpid to finish reaping the child
+        if ($res !== -1) {
             continue;
         }
-    }
 
-    // Inspect child process termination state
-    if (\pcntl_wifsignaled($status)) {
-        $signal = \pcntl_wtermsig($status);
+        $error = \pcntl_get_last_error();
 
-        if (\in_array($signal, [SIGTERM, SIGINT, SIGQUIT], true)) {
-            $shouldQuit = true;
-        } else {
-            \fwrite(STDERR, "Worker terminated by signal {$signal};\n");
+        if ($error === PCNTL_EINTR) {
+            continue;
         }
-    } elseif (\pcntl_wifexited($status)) {
-        $exitCode = \pcntl_wexitstatus($status);
 
-        if ($exitCode !== 0) {
-            \fwrite(STDERR, "Worker exited with status {$exitCode};\n");
+        if ($error === PCNTL_ECHILD) {
+            break;
         }
+
+        \fwrite(
+            STDERR,
+            'Fatal: waitpid failed: ' . \pcntl_strerror($error) . "\n"
+        );
+
+        exit(1);
     }
 
     /**
