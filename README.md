@@ -16,20 +16,6 @@ It ships with a pre-configured .cursorrules file in the root directory. If you a
 
 We remain open for suggestions in the discussions area: https://github.com/macropay-solutions/php-kernel/discussions
 
-> **Notes:**
-> 
-> We improved this template with:
-> 
-> route:{cache|clear} command
-> 
-> config:{cache|clear} command
->
-> event:{cache|clear} command that includes also observers
->
-> autowiring:{cache|clear} command
-> 
-> We striped down optional packages by adding them to composer.json autoload.exclude-from-classmap and commenting their bindings in \App\Application::$availableBindings and aliases in \App\Application::registerContainerAliases. Remove and uncomment them from there if/when you will need them.
-
 ## Security Vulnerabilities
 
 Please review [our security policy](https://github.com/macropay-solutions/php-kernel/security/policy) on how to report security vulnerabilities.
