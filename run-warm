@@ -6,11 +6,6 @@ if (!\extension_loaded('pcntl')) {
     exit(1);
 }
 
-if (!\extension_loaded('posix')) {
-    \fwrite(STDERR, "The posix extension is required for run-warm.\n");
-    exit(1);
-}
-
 // ── 0. SIGNAL HANDLING SETUP (Matching Worker.php logic) ──
 $shouldQuit = false;
 $paused = false;

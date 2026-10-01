@@ -20,7 +20,6 @@
     "suggest": {
         "php": "8.2-8.5",
         "ext-pcntl": "Required for php run-warm",
-        "ext-posix": "Required for php run-warm",
         "ext-zend-opcache": "*",
         "league/commonmark": "Required for Markdown mailables (^2.6)",
         "macropay-solutions/php-crufd-wizard-client": "^1.0.0",
