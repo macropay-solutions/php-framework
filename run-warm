@@ -33,35 +33,10 @@ if (!isset($_SERVER['argv'][1]) || $_SERVER['argv'][1] !== 'queue:work') {
 /**
  * 1. PARENT INITIALIZATION
  * Executed once. Reads framework into RAM for Copy-on-Write inheritance.
+ * This includes the SOCKET SANITIZATION
  */
 /** @var \App\Application $app */
 $app = require __DIR__ . '/bootstrap/cli.php';
-
-/**
- * 3. SOCKET SANITIZATION
- */
-// Disconnect ALL active DB connections (mysql, pgsql, read/write replicas, tenants)
-if ($app->resolved('db')) {
-    $dbManager = $app->make('db');
-
-    foreach (($dbManager->getConnections() ?? []) as $name => $connection) {
-        /** @var \MacropaySolutions\Kernel\Database\Connection $connection */
-        $dbManager->purge($name);
-        \fwrite(STDERR, "Disconnected db connection {$name};\n");
-    }
-}
-
-// Disconnect ALL active Redis connections (default, cache, publisher, etc.)
-if ($app->resolved('redis')) {
-    $redisManager = $app->make('redis');
-
-    foreach (($redisManager->connections() ?? []) as $name => $connection) {
-        /** @var \MacropaySolutions\Kernel\Redis\Connections\Connection $connection */
-        $connection->disconnect();
-        $redisManager->purge($name);
-        \fwrite(STDERR, "Disconnected redis connection {$name};\n");
-    }
-}
 
 /**
  * 2. THE PARENT DAEMON LOOP
@@ -75,12 +50,12 @@ while (!$shouldQuit) {
     }
 
     /**
-     * 4. THE FORK
+     * 3. THE FORK
      */
     $childPid = \pcntl_fork();
 
     /**
-     * 5. FORK FAILURE (PARENT ONLY)
+     * 4. FORK FAILURE (PARENT ONLY)
      */
     if ($childPid === -1) {
         \fwrite(STDERR, "Fatal: Unable to fork queue worker process.\n");
@@ -88,7 +63,7 @@ while (!$shouldQuit) {
     }
 
     /**
-     * 6. CHILD EXECUTION (CHILD ONLY)
+     * 5. CHILD EXECUTION (CHILD ONLY)
      */
     if ($childPid === 0) {
         require_once __DIR__ . '/worker/index.php';
@@ -96,7 +71,7 @@ while (!$shouldQuit) {
     }
 
     /**
-     * 7. SYNCHRONOUS WAIT (PARENT ONLY)
+     * 6. SYNCHRONOUS WAIT (PARENT ONLY)
      * Loop pcntl_waitpid until the child process is explicitly reaped ($res === $childPid).
      * Handles signal interruptions (EINTR) safely without inspecting partial/invalid status.
      */
@@ -132,6 +107,6 @@ while (!$shouldQuit) {
     }
 
     /**
-     * 8. RESTART LOOP
+     * 7. RESTART LOOP
      */
 }
