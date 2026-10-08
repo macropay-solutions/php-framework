@@ -72,6 +72,6 @@
         "preferred-install": "dist",
         "sort-packages": true
     },
-    "minimum-stability": "RC",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }
