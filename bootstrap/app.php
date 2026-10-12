@@ -86,7 +86,7 @@ if (!$app->configurationIsCached()) {
 | Pay attention to $this->app usage in the callbacks. It should become $app as
 | the context in which the callback is defined changes.
 |
-| The register call bellow is still needed if you have logic in boot method
+| The register call below is still needed if you have logic in boot method
 */
 
 // $app->register(\App\Providers\AppServiceProvider::class);
