@@ -39,7 +39,7 @@ When adding routes to `routes/web.php`:
 ## 4. CrufdQL Free Limitations
 When generating client-side requests, testing URLs, or writing documentation:
 * **Operator restriction:** Only use strict equality filters (e.g., `?status=active`).
-* **Aggregations:** Do NOT use `withSum`, `withAvg`, `withMin`, `withMax`, or `groupBy`. These require an upgrade to the Pro suite (`php-rest-wizard`).
+* **Aggregations:** Do NOT use `withSum`, `withAvg`, `withMin`, `withMax`, or `groupBy`. These require an upgrade to the Pro suite (`php-crufad-wizard`).
 * **Relational Support:** You MAY use `withRelations[]`, `withRelationsCount[]`, and `withRelationsExistence[]`.
 * If a user prompts you to write a complex filter (like `price > 100` or `in array`), explicitly inform them that this requires the premium version, and fallback to the free tier's strict matching if possible.
 
