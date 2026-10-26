@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\User;
-use MacropaySolutions\Kernel\Database\Obvious\Factories\Factory;
+use MacropaySolutions\KernelDev\Database\Obvious\Factories\Factory;
 
 class UserFactory extends Factory
 {
