@@ -40,9 +40,13 @@ class AuthServiceProvider extends ServiceProvider implements DeferrableProvider
 //                return null;
 //            }
 //
-//            $user = User::query()->find($id);
+//            $user = User::query()->find($id) ?? new User();
 //
-//            if ($user instanceof User && \password_verify($pass, $user->pass)) {
+//            if (
+//                \password_verify($pass, $user->getAttributeValue('pass') ??
+//                    '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm') // hash for `secret`
+//                && $user->exists
+//            ) {
 //                return $user;
 //            }
 //
