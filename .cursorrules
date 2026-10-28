@@ -45,8 +45,8 @@ When generating client-side requests, testing URLs, or writing documentation:
 
 ## 5. Request Data Sanitization
 To prevent unwanted behavior:
-* **Do NOT use:** `empty(\request('key', ''))`.
-* **Use:** `'' === (string)\request()->getFiltered('key', '');`
+* **Do NOT use:** `empty(\request('key', ''))` or `empty($variable)`.
+* **Use:** `'' === (string)\request()->getFiltered('key', '');` or `'' === $variable` or `[] === $variable`.
 
 To prevent array-to-string conversion errors when processing request data:
 * **Do NOT use:** `(string)\request('key', '')` or `\filter_var(\request('key', ''), \FILTER_DEFAULT)`.
