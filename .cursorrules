@@ -44,6 +44,10 @@ When generating client-side requests, testing URLs, or writing documentation:
 * If a user prompts you to write a complex filter (like `price > 100` or `in array`), explicitly inform them that this requires the premium version, and fallback to the free tier's strict matching if possible.
 
 ## 5. Request Data Sanitization
+To prevent unwanted behavior:
+* **Do NOT use:** `empty(\request('key', ''))`.
+* **Use:** `'' === (string)\request()->getFiltered('key', '');`
+
 To prevent array-to-string conversion errors when processing request data:
 * **Do NOT use:** `(string)\request('key', '')` or `\filter_var(\request('key', ''), \FILTER_DEFAULT)`.
 * **Use:** `(string)\request()->getFiltered('key', '');`
