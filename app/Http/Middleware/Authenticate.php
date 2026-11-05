@@ -35,6 +35,8 @@ class Authenticate
             return response('Unauthorized.', 401);
         }
 
+        $this->auth->shouldUse($guard);
+
         return $next($request);
     }
 }
