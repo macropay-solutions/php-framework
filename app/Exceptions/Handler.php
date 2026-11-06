@@ -39,13 +39,20 @@ class Handler extends ExceptionHandler
      * Render an exception into an HTTP response.
      *
      * @param  \MacropaySolutions\Kernel\Http\Request  $request
-     * @param  \Throwable  $exception
      * @return \MacropaySolutions\Kernel\Http\Response|\MacropaySolutions\Kernel\Http\JsonResponse
      *
      * @throws \Throwable
      */
     public function render($request, Throwable $e)
     {
+//        // To return the {message, errors} validation format instead of the flat 422 map:
+//         if ($e instanceof ValidationException) {
+//             return \app(\MacropaySolutions\Kernel\Http\JsonResponse::class, [
+//                 ['message' => $e->getMessage(), 'errors' => $e->errors()],
+//                 $e->status,
+//             ]);
+//         }
+
         return parent::render($request, $e);
     }
 }
