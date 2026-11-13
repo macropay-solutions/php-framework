@@ -51,3 +51,10 @@ To prevent unwanted behavior:
 To prevent array-to-string conversion errors when processing request data:
 * **Do NOT use:** `(string)\request('key', '')` or `\filter_var(\request('key', ''), \FILTER_DEFAULT)`.
 * **Use:** `(string)\request()->getFiltered('key', '');`
+
+Read each request value from its own source:
+* **Route parameters:** `$request->route('id')`
+* **Client input (body / query):** `(string)$request->getFiltered('name')`. It checks request attributes first, then body / query, so an attribute with the same name wins.
+* **Uploaded files:** `$request->file('photo')` / `$request->hasFile('photo')`
+* **Middleware data:** `$request->attributes->get('key')`. Prefix attribute keys (e.g. `_client_id`) so they never match an input name.
+* **Do NOT use:** `$request->name`, `$request['name']` or `isset($request['name'])`. They merge input, files and route parameters, return untyped values and rebuild the merged input on every call.
