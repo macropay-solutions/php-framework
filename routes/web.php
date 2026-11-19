@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\VersionController;
+
 /** @var \App\Router $router */
 
 /*
@@ -8,14 +10,14 @@
 |--------------------------------------------------------------------------
 |
 | Here is where you can register all the routes for an application.
-| It is a breeze. Simply tell theFramework the URIs it should respond to
-| and give it the Closure to call when that URI is requested.
+| It is a breeze. Simply tell the framework the URIs it should respond to
+| and the controller method to call when that URI is requested.
 |
 */
 
 $router->get('/', [
     'as' => 'version',
-    'uses' => 'VersionController@version',
+    'uses' => [VersionController::class, 'version'],
 ]);
 
 /*
@@ -31,62 +33,60 @@ $router->get('/', [
 //        \App\Support\DbCrudMap::MODEL_FQN_TO_CONTROLLER_MAP
 //    ) as $resource => $controllerFqn
 //) {
-//    $controllerFqnExploded = \explode('\\', $controllerFqn);
-//    $controller = \end($controllerFqnExploded);
 //    //$router->get('/' . $resource . '/{identifier}/{relation}', [
 //    //    'as' => $resource . '.listRelated',
-//    //    'uses' => $controller . '@listRelation',
+//    //    'uses' => [$controllerFqn, 'listRelation'],
 //    //]); // paid version only
 //    $router->get('/' . $resource, [
 //        'as' => $resource . '.list',
-//        'uses' => $controller . '@list',
+//        'uses' => [$controllerFqn, 'list'],
 //    ]);
 //    //$router->post('/' . $resource . '/{identifier}/{relation}/l/i/s/t', [
 //    //    'as' => $resource . '.post_listRelated',
-//    //    'uses' => $controller . '@listRelation',
+//    //    'uses' => [$controllerFqn, 'listRelation'],
 //    //]); // paid version only
 //    // or
 //    //$router->query('/' . $resource . '/{identifier}/{relation}', [
 //    //    'as' => $resource . '.query_listRelated',
-//    //    'uses' => $controller . '@listRelation',
+//    //    'uses' => [$controllerFqn, 'listRelation'],
 //    //]); // paid version only
 //    //$router->post('/' . $resource . '/l/i/s/t', [
 //    //    'as' => $resource . '.post_list',
-//    //    'uses' => $controller . '@list',
+//    //    'uses' => [$controllerFqn, 'list'],
 //    //]);
 //    // or
 //    $router->query('/' . $resource, [
 //        'as' => $resource . '.query_list',
-//        'uses' => $controller . '@list',
+//        'uses' => [$controllerFqn, 'list'],
 //    ]);
 //    $router->post('/' . $resource, [
 //        'as' => $resource . '.create',
-//        'uses' => $controller . '@create',
+//        'uses' => [$controllerFqn, 'create'],
 //    ]);
 //    $router->put('/' . $resource . '/{identifier}', [
 //        'as' => $resource . '.update',
-//        'uses' => $controller . '@update',
+//        'uses' => [$controllerFqn, 'update'],
 //    ]);
 //    $router->get('/' . $resource . '/{identifier}', [
 //        'as' => $resource . '.get',
-//        'uses' => $controller . '@get',
+//        'uses' => [$controllerFqn, 'get'],
 //    ]);
 //    $router->delete('/' . $resource . '/{identifier}', [
 //        'as' => $resource . '.delete',
-//        'uses' => $controller . '@delete',
+//        'uses' => [$controllerFqn, 'delete'],
 //    ]);
 //
 //    $router->get('/' . $resource . '/{identifier}/{relation}/{relatedIdentifier}', [
 //        'as' => $resource . '.getRelated',
-//        'uses' => $controller . '@getRelated',
+//        'uses' => [$controllerFqn, 'getRelated'],
 //    ]);
 //    $router->put('/' . $resource . '/{identifier}/{relation}/{relatedIdentifier}', [
 //        'as' => $resource . '.updateRelated',
-//        'uses' => $controller . '@updateRelated',
+//        'uses' => [$controllerFqn, 'updateRelated'],
 //    ]);
 //    $router->delete('/' . $resource . '/{identifier}/{relation}/{relatedIdentifier}', [
 //        'as' => $resource . '.deleteRelated',
-//        'uses' => $controller . '@deleteRelated',
+//        'uses' => [$controllerFqn, 'deleteRelated'],
 //    ]);
 //}
 
